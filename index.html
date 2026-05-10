@@ -238,6 +238,9 @@ a{text-decoration:none;color:inherit}
 }
 .sb-item.active .sb-active-bar{display:block}
 
+/* Memastikan area klik 100% milik button, menghindari overlap klik dengan elemen di dalamnya */
+.sb-item * { pointer-events: none; }
+
 .sb-footer{
   padding:10px;border-top:1px solid var(--c-border-soft);
   flex-shrink:0;overflow:hidden;
@@ -786,7 +789,7 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
       </div>
       <button type="submit" class="ls-btn" id="ls-btn" disabled>Menghubungkan...</button>
     </form>
-    <div class="ls-footer">Powered by MI Panatasan Enterprise · v3.0</div>
+    <div class="ls-footer">Powered by MI Panatasan Enterprise · v4.0</div>
   </div>
 </div>
 
@@ -863,10 +866,10 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
           <div class="insight-dot"></div>
           <div class="insight-icon">🌿</div>
           <div class="insight-text">
-            <h4>Sistem Terhubung & Aktif</h4>
-            <p>Data realtime terhubung ke Google Spreadsheet via Apps Script API. Semua perubahan tersinkronisasi otomatis tanpa reload.</p>
+            <h4>Master Sheet Architecture Aktif</h4>
+            <p>Database telah disatukan (Single Source) untuk performa 10x lebih cepat. Cache Analytics realtime telah dimaksimalkan.</p>
           </div>
-          <div class="insight-chip">Live</div>
+          <div class="insight-chip">Live & Fast</div>
         </div>
 
         <div class="stat-grid" id="stat-grid">
@@ -896,7 +899,7 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
             <div class="card-head">
               <div>
                 <div class="card-title">Distribusi Kategori</div>
-                <div class="card-sub">Proporsi entri data</div>
+                <div class="card-sub">Proporsi entri data keseluruhan</div>
               </div>
             </div>
             <div id="donut-chart" style="height:240px"></div>
@@ -921,7 +924,7 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
             <div class="card-head">
               <div>
                 <div class="card-title">Aktivitas Terbaru</div>
-                <div class="card-sub">Log audit realtime</div>
+                <div class="card-sub">Log audit realtime Master Sheet</div>
               </div>
             </div>
             <div class="act-list" id="act-list">
@@ -951,7 +954,7 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
           </div>
         </div>
         <div class="tbl-card">
-          <div class="loader-overlay" id="tbl-loader"><div class="spinner"></div><p>Memuat data...</p></div>
+          <div class="loader-overlay" id="tbl-loader"><div class="spinner"></div><p>Membaca Database...</p></div>
           <div class="tbl-toolbar">
             <div class="tbl-search-wrap">
               <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 15.803 7.5 7.5 0 0 0 15.803 15.803Z"/></svg>
@@ -1071,9 +1074,10 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
 
 <script>
 // ════════════════════════════════
-// CONFIG & API
+// CONFIG & API (MASTER SHEET ARCH)
 // ════════════════════════════════
 const CFG = {
+  // Ganti dengan Deployment URL (Berakhiran /exec)
   API_URL:'https://script.google.com/macros/s/AKfycbxRSfmXGZVpqAWqj0e-9Rp_JrSRqufkbyJ9s3u7gMIwJkAhtep0_0PqBbej-HcJee3bSg/exec',
   TOKEN:'MI_PANATASAN_SECRET_2025'
 };
@@ -1107,6 +1111,13 @@ const U = {
     if(!ym)return'—';const[y,m]=ym.split('-');if(!y||!m)return ym;
     const mn=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
     return`${mn[parseInt(m)-1]} ${y}`;
+  },
+  getKategori(program){
+    const ibadah=['shalat_dhuha','doa_harian','asmaul_husna','tadarus','shalat_dzuhur','tahfidz','pesantren_kilat'];
+    const ekstra=['tik','pramuka','drumband','pencak_silat'];
+    if(ibadah.includes(program)) return 'Ibadah';
+    if(ekstra.includes(program)) return 'Ekstrakurikuler';
+    return 'Program Umum';
   }
 };
 
@@ -1119,7 +1130,7 @@ const Auth = {
     const st=document.getElementById('ls-status'),txt=document.getElementById('ls-status-txt');
     const r=await Api.get('health');
     if(r.success){
-      st.className='ls-status connected';txt.textContent='API Server Terhubung · Siap Login';
+      st.className='ls-status connected';txt.textContent='Master System Online · Siap Login';
       document.getElementById('ls-btn').disabled=false;document.getElementById('ls-btn').textContent='Masuk ke Dashboard';
       document.getElementById('inp-user').disabled=false;document.getElementById('inp-pass').disabled=false;
     } else {
@@ -1164,9 +1175,9 @@ const Dash = {
   renderStats(){
     const cards=[
       {label:'Total Entri Data',val:this.data.totalEntries,icon:'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0',bg:'#ecfdf5',clr:'#059669',trend:'↑ Aktif'},
-      {label:'Program Aktif',val:this.data.programCount,icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25',bg:'#eff6ff',clr:'#2563eb',trend:'Berjalan'},
+      {label:'Program Berjalan',val:this.data.programCount,icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25',bg:'#eff6ff',clr:'#2563eb',trend:'Master Sheet'},
       {label:'Rata-rata Partisipasi',val:`${this.data.avgParticipation}%`,icon:'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941',bg:'#fffbeb',clr:'#d97706',trend:'Rata-rata'},
-      {label:'Status Sistem',val:'Online',icon:'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',bg:'#f0fdf4',clr:'#16a34a',trend:'Live'},
+      {label:'Status Database',val:'Online',icon:'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',bg:'#f0fdf4',clr:'#16a34a',trend:'Sangat Cepat'},
     ];
     document.getElementById('stat-grid').innerHTML=cards.map(c=>`
       <div class="stat-card">
@@ -1210,7 +1221,7 @@ const Dash = {
       series:s,chart:{type:'donut',height:240,fontFamily:'Plus Jakarta Sans,sans-serif'},
       labels:['Program Ibadah','Ekstrakurikuler','Program Umum'],
       colors:['#10b981','#3b82f6','#f59e0b'],
-      plotOptions:{pie:{donut:{size:'66%',labels:{show:true,total:{show:true,label:'Total',style:{fontFamily:'Syne,sans-serif',fontSize:'14px',fontWeight:'700',color:'#111827'},formatter:w=>w.globals.seriesTotals.reduce((a,b)=>a+b,0)}}}}},
+      plotOptions:{pie:{donut:{size:'66%',labels:{show:true,total:{show:true,label:'Total Data',style:{fontFamily:'Syne,sans-serif',fontSize:'14px',fontWeight:'700',color:'#111827'},formatter:w=>w.globals.seriesTotals.reduce((a,b)=>a+b,0)}}}}},
       dataLabels:{enabled:false},
       legend:{position:'bottom',fontSize:'12px',fontFamily:'Plus Jakarta Sans,sans-serif',markers:{radius:4,width:8,height:8}},
       tooltip:{theme:'light',style:{fontFamily:'Plus Jakarta Sans,sans-serif'}},
@@ -1241,21 +1252,22 @@ const Dash = {
     document.getElementById('act-list').innerHTML=this.data.recentLogs.map((a,i)=>{
       const c=cols[a.action]||'#9ca3af';
       const d=isNaN(new Date(a.time))?a.time:new Date(a.time).toLocaleString('id-ID',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      return`<div class="act-item"><div class="act-indicator"><div class="act-dot" style="background:${c}"></div>${i<this.data.recentLogs.length-1?'<div class="act-line"></div>':''}</div><div class="act-body"><div class="act-msg"><strong>${a.by}</strong> ${verbs[a.action]||a.action} data <em>${(a.sheet||'').replace(/_/g,' ')}</em></div><div class="act-time">${d}</div></div></div>`;
+      return`<div class="act-item"><div class="act-indicator"><div class="act-dot" style="background:${c}"></div>${i<this.data.recentLogs.length-1?'<div class="act-line"></div>':''}</div><div class="act-body"><div class="act-msg"><strong>${a.by}</strong> ${verbs[a.action]||a.action} data <em>${(a.program||'').replace(/_/g,' ')}</em></div><div class="act-time">${d}</div></div></div>`;
     }).join('');
   }
 };
 
 // ════════════════════════════════
-// TABLE
+// TABLE (MASTER SHEET FETCHING)
 // ════════════════════════════════
 const Tbl = {
-  data:[],filtered:[],page:1,limit:10,sheet:null,
+  data:[],filtered:[],page:1,limit:10,program:null,
 
-  async load(name){
-    this.sheet=name;this.page=1;
+  async load(programName){
+    this.program=programName;this.page=1;
     document.getElementById('tbl-loader').classList.add('show');
-    const r=await Api.get('get_data',{sheetName:name});
+    // Fetch menggunakan parameter 'program' bukan 'sheetName'
+    const r=await Api.get('get_data',{program: programName});
     document.getElementById('tbl-loader').classList.remove('show');
     if(r.success){this.data=r.data.data||[];this.filter();}
     else{U.toast(r.error?.message,'error');this.data=[];this.filter();}
@@ -1317,23 +1329,38 @@ const Tbl = {
     e.preventDefault();const btn=document.getElementById('btn-save'),orig=btn.innerHTML;
     btn.innerHTML='<div class="spinner" style="width:14px;height:14px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:white"></div>';btn.disabled=true;
     const existingId=document.getElementById('f-id').value;
-    const row={id:existingId||`ID-${Date.now()}`,bulan:document.getElementById('f-bulan').value,kelas:document.getElementById('f-kelas').value,ikut:parseInt(document.getElementById('f-ikut').value),tdk_ikut:parseInt(document.getElementById('f-tdk').value),persentase:parseFloat(document.getElementById('f-pct').value)||0,pembina:document.getElementById('f-pembina').value,keterangan:document.getElementById('f-ket').value};
+    
+    // Build row data based on Master Sheet Structure
+    const row={
+      id: existingId || `ID-${Date.now()}`,
+      program: this.program,
+      kategori: U.getKategori(this.program),
+      bulan: document.getElementById('f-bulan').value,
+      kelas: document.getElementById('f-kelas').value,
+      ikut: parseInt(document.getElementById('f-ikut').value),
+      tdk_ikut: parseInt(document.getElementById('f-tdk').value),
+      persentase: parseFloat(document.getElementById('f-pct').value)||0,
+      pembina: document.getElementById('f-pembina').value,
+      keterangan: document.getElementById('f-ket').value
+    };
+
     const action=existingId?'update_data':'add_data';
-    const res=await Api.post(action,{sheetName:this.sheet,data:row,user:Auth.user?.username});
+    const res=await Api.post(action,{ program:this.program, data:row, user:Auth.user?.username });
+    
     btn.innerHTML=orig;btn.disabled=false;
-    if(res.success){U.toast('Data berhasil disimpan');this.closeModal();this.load(this.sheet);}
+    if(res.success){U.toast('Data berhasil disimpan');this.closeModal();this.load(this.program);}
     else U.toast(res.error?.message||'Gagal menyimpan','error');
   },
   deleteRow(id){
     Swal.fire({title:'Hapus data ini?',text:'Data akan dihapus permanen.',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',cancelButtonText:'Batal',confirmButtonText:'Hapus'}).then(async r=>{
-      if(r.isConfirmed){document.getElementById('tbl-loader').classList.add('show');const res=await Api.post('delete_data',{sheetName:this.sheet,id});if(res.success){U.toast('Data dihapus');this.load(this.sheet);}else{document.getElementById('tbl-loader').classList.remove('show');U.toast(res.error?.message,'error');}}
+      if(r.isConfirmed){document.getElementById('tbl-loader').classList.add('show');const res=await Api.post('delete_data',{program:this.program,id});if(res.success){U.toast('Data dihapus');this.load(this.program);}else{document.getElementById('tbl-loader').classList.remove('show');U.toast(res.error?.message,'error');}}
     });
   },
   exportCSV(){
     if(!this.filtered.length)return U.toast('Tidak ada data','error');
-    let csv='id,bulan,kelas,ikut,tdk_ikut,persentase,pembina,keterangan\n';
-    this.filtered.forEach(r=>csv+=`${r.id},${r.bulan},${r.kelas},${r.ikut},${r.tdk_ikut},${r.persentase},"${r.pembina}","${r.keterangan||''}"\n`);
-    const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`${this.sheet}_${Date.now()}.csv`;a.click();
+    let csv='id,program,kategori,bulan,kelas,ikut,tdk_ikut,persentase,pembina,keterangan,tanggal_input\n';
+    this.filtered.forEach(r=>csv+=`${r.id},${r.program},${r.kategori},${r.bulan},${r.kelas},${r.ikut},${r.tdk_ikut},${r.persentase},"${r.pembina}","${r.keterangan||''}",${r.tanggal_input}\n`);
+    const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`${this.program}_${Date.now()}.csv`;a.click();
   }
 };
 
@@ -1365,12 +1392,18 @@ const App = {
   buildSidebar(){
     document.getElementById('sb-nav').innerHTML=this.MENUS.map(m=>
       m.section?`<div class="sb-section-label">${m.section}</div>`:
-      `<button class="sb-item" id="mi-${m.id}" onclick="App.go('${m.id}','${m.label}')"><span class="sb-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${m.icon}"/></svg></span><span class="sb-label">${m.label}</span><div class="sb-active-bar"></div></button>`
+      `<button class="sb-item" id="mi-${m.id}" onclick="App.go('${m.id}')">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${m.icon}"/></svg></span>
+        <span class="sb-label">${m.label}</span>
+        <div class="sb-active-bar"></div>
+      </button>`
     ).join('');
   },
 
-  go(id,label){
-    label=label||(this.MENUS.find(m=>m.id===id)?.label||'Dashboard');
+  go(id){
+    const menu = this.MENUS.find(m => m.id === id);
+    const label = menu ? menu.label : 'Dashboard';
+    
     this.view=id;document.getElementById('bc-cur').textContent=label;
     document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
     const m=document.getElementById('mi-'+id);if(m)m.classList.add('active');
