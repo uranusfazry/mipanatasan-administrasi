@@ -179,13 +179,6 @@ input,select,textarea{font-family:inherit}
 .act-msg b{color:var(--emerald-700)}
 .act-time{font-size:11px;color:var(--text-muted);margin-top:3px}
 
-/* HEATMAP GRID */
-.heatmap-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
-.hm-cell{aspect-ratio:1;border-radius:4px;transition:var(--trans);cursor:default;position:relative}
-.hm-cell:hover{transform:scale(1.1);box-shadow:var(--shadow-sm);z-index:2}
-.hm-labels{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:6px}
-.hm-label{font-size:9px;color:var(--text-muted);text-align:center}
-
 /* PROGRAM TABLE VIEW */
 .table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;flex:1;display:flex;flex-direction:column;position:relative}
 .table-toolbar{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface-2)}
@@ -431,16 +424,6 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
             <div class="chart-head"><div><div class="chart-title">Audit Log Realtime</div><div class="chart-subtitle">Aktivitas admin terbaru</div></div></div>
             <div class="activity-list" id="activity-list"></div>
           </div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-head">
-            <div>
-              <div class="chart-title">Heatmap Kepadatan Partisipasi</div>
-              <div class="chart-subtitle">Sebaran partisipasi 1 tahun terakhir</div>
-            </div>
-          </div>
-          <div class="hm-labels" id="hm-labels"></div>
-          <div class="heatmap-grid" id="heatmap"></div>
         </div>
       </div>
 
@@ -727,7 +710,6 @@ const Dashboard = {
       this.renderDonut();
       this.renderRanking();
       this.renderActivity();
-      this.renderHeatmap();
     } else {
       Utils.toast(res.error?.message || 'Gagal memuat dashboard', 'error');
     }
@@ -792,22 +774,6 @@ const Dashboard = {
       const d = isNaN(new Date(a.time)) ? a.time : new Date(a.time).toLocaleString('id-ID',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
       return `<div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:${c}"></div>${i<this.data.recentLogs.length-1?'<div class="act-line"></div>':''}</div><div class="act-content"><div class="act-msg"><b>${a.by}</b> ${t} data <i>${a.sheet.replace(/_/g,' ')}</i></div><div class="act-time">${d}</div></div></div>`;
     }).join('');
-  },
-
-  renderHeatmap() {
-    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
-    document.getElementById('hm-labels').innerHTML = months.map(m=>`<div class="hm-label">${m}</div>`).join('');
-    let html='';
-    App.MENUS.filter(m=>m.id&&m.id!=='dashboard').forEach(prog => {
-      const raw = this.data.heatmap[prog.id] || {};
-      months.forEach((_, idx) => {
-        const k = `2025-${String(idx+1).padStart(2,'0')}`; 
-        const pct = raw[k]&&raw[k].count>0 ? raw[k].sum/raw[k].count : 0;
-        const c = pct>85?'#065f46':(pct>60?'#10b981':(pct>1?'#6ee7b7':'#d1fae5'));
-        html += `<div class="hm-cell" style="background:${c}" title="${prog.label}: ${pct.toFixed(1)}%"></div>`;
-      });
-    });
-    document.getElementById('heatmap').innerHTML=html;
   }
 };
 
