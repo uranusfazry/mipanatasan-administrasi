@@ -643,9 +643,59 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
 <div class="toast-container" id="toast-container"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────
-const USE_MOCK = true;
-const GAS_URL = 'https://script.google.com/macros/s/AKfycby-YOUR-API-KEY/exec';
+// ─── 1. ENTERPRISE CONFIG & STATE ────────────────────────
+const CONFIG = {
+  // PENTING: Ganti dengan URL /exec Apps Script Anda
+  API_URL: 'https://script.google.com/macros/s/AKfycby-YOUR-API-KEY/exec',
+  TOKEN: 'MI_PANATASAN_SECRET_2025',
+  ENV: 'production'
+};
+
+const S = {
+  view: 'dashboard', 
+  program: null,
+  data: [], 
+  filtered: [], 
+  page: 1, 
+  limit: 10,
+  charts: {}
+};
+
+// ─── 2. API SERVICE LAYER (CORS & RETRY HANDLER) ─────────
+const API = {
+  async fetch(action, params = {}, method = 'GET', body = null) {
+    try {
+      const url = new URL(CONFIG.API_URL);
+      url.searchParams.append('action', action);
+      
+      // Inject token & GET params
+      if (method === 'GET') {
+        url.searchParams.append('token', CONFIG.TOKEN);
+        Object.keys(params).forEach(k => url.searchParams.append(k, params[k]));
+      }
+
+      const options = { method };
+      
+      if (method === 'POST') {
+        // HACK: Gunakan text/plain untuk bypass CORS Preflight (OPTIONS) di Google Apps Script
+        options.body = JSON.stringify({ action, token: CONFIG.TOKEN, ...body });
+        options.headers = { 'Content-Type': 'text/plain;charset=utf-8' };
+      }
+
+      const res = await fetch(url, options);
+      const json = await res.json();
+
+      if (!json.success) throw new Error(json.error?.message || 'Terjadi kesalahan API');
+      return json;
+    } catch (err) {
+      console.error(`[API Error - ${action}]:`, err);
+      toast(err.message, 'error');
+      throw err;
+    }
+  },
+  get(action, params) { return this.fetch(action, params, 'GET'); },
+  post(action, payload) { return this.fetch(action, {}, 'POST', payload); }
+};
 
 // ─── MENUS ────────────────────────────────────────────
 const MENUS = [
@@ -791,11 +841,57 @@ function startClock(){
 }
 
 // ─── DASHBOARD ───────────────────────────────────────
-function initDashboard(){
-  renderStats();
+async function initDashboard(){
+  try {
+    // 5. REALTIME DASHBOARD ANALYTICS
+    const res = await API.get('get_dashboard');
+    const data = res.data;
+
+    const STAT_DATA = [
+      {label:'Total Laporan Data', value: data.totalEntries, trend:'Realtime', up:true, icon:'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z', color:'#ede9fe', stroke:'#7c3aed'},
+      {label:'Total Program', value: data.programCount, trend:'Aktif', up:null, icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25', color:'#dbeafe', stroke:'#2563eb'},
+      {label:'Rata-rata Partisipasi', value: data.avgParticipation + '%', trend:'Bulan Ini', up:true, icon:'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941', color:'#fef3c7', stroke:'#d97706'}
+    ];
+    
+    // Render Realtime Data
+    const grid = document.getElementById('stats-grid');
+    grid.innerHTML = STAT_DATA.map(s=>`
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div class="stat-icon" style="background:${s.color}">
+            <svg viewBox="0 0 24 24" stroke="${s.stroke}" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${s.icon}"/></svg>
+          </div>
+          <span class="stat-trend trend-neutral">${s.trend}</span>
+        </div>
+        <div><div class="stat-value">${s.value}</div><div class="stat-label">${s.label}</div></div>
+      </div>
+    `).join('');
+
+    // Re-map top programs untuk ranking
+    const rankData = data.topPrograms.map((p, i) => ({
+      name: p.name.replace(/_/g, ' ').toUpperCase(),
+      sub: `Total Entri: ${p.entryCount}`,
+      pct: parseFloat(p.avgParticipation)
+    }));
+    document.getElementById('rank-list').innerHTML = rankData.map((r,i)=>`
+      <div class="rank-item">
+        <div class="rank-num" style="background:${['#fef3c7','#f1f5f9','#fef3c7','#d1fae5','#dbeafe'][i]};color:${['#f59e0b','#9ca3af','#cd7f32','#10b981','#3b82f6'][i]}">${i+1}</div>
+        <div class="rank-info">
+          <div class="rank-name">${r.name}</div>
+          <div class="rank-sub">${r.sub}</div>
+          <div class="rank-bar"><div class="rank-bar-fill" style="width:${r.pct}%"></div></div>
+        </div>
+        <div class="rank-pct">${r.pct}%</div>
+      </div>
+    `).join('');
+
+  } catch(e) {
+    console.error('Failed to load dashboard analytics');
+  }
+
+  // Render dummy charts for now while integrating
   renderTrendChart();
   renderDonut();
-  renderRanking();
   renderActivity();
   renderHeatmap();
 }
@@ -953,14 +1049,26 @@ function renderHeatmap(){
 }
 
 // ─── PROGRAM DATA ────────────────────────────────────
-function loadData(prog){
-  S.page=1;
-  if(USE_MOCK){
-    setTimeout(()=>{S.data=genMock(prog);filterTable();},400);
-  } else {
-    fetch(`${GAS_URL}?action=get_data&sheetName=${prog}`)
-      .then(r=>r.json()).then(j=>{S.data=j.success?j.data:[];filterTable();})
-      .catch(()=>{toast('Gagal mengambil data','error');S.data=[];filterTable();});
+async function loadData(prog){
+  if (!prog) return; // Mencegah payload undefined
+  
+  S.page = 1;
+  S.program = prog; // Kunci State Program
+  
+  // 6. LOADING SYSTEM (Skeleton)
+  const tbody = document.getElementById('table-body');
+  const empty = document.getElementById('empty-state');
+  empty.style.display = 'none';
+  tbody.innerHTML = Array(5).fill('<tr><td colspan="8"><div class="skeleton" style="height:24px;width:100%"></div></td></tr>').join('');
+  document.getElementById('tbl-info').textContent = 'Memuat data...';
+
+  try {
+    const res = await API.get('get_data', { sheetName: prog });
+    S.data = res.data.data || [];
+    filterTable();
+  } catch (err) {
+    S.data = [];
+    filterTable();
   }
 }
 
@@ -1108,37 +1216,49 @@ function editRow(r){
 
 async function submitForm(e){
   e.preventDefault();
-  const btn=document.getElementById('btn-save');
-  const orig=btn.innerHTML;
-  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Menyimpan...';
-  btn.disabled=true;
-  const pctRaw=document.getElementById('f-pct').value.replace('%','');
-  const row={
-    id:document.getElementById('f-id').value||'ID-'+Date.now(),
-    bulan:document.getElementById('f-bulan').value,
-    kelas:document.getElementById('f-kelas').value,
-    ikut:parseInt(document.getElementById('f-ikut').value),
-    tdk_ikut:parseInt(document.getElementById('f-tdk').value),
-    persentase:parseFloat(pctRaw),
-    pembina:document.getElementById('f-pembina').value,
-    keterangan:document.getElementById('f-ket').value,
-    tanggal_input:new Date().toISOString().split('T')[0]
-  };
-  const isEdit=!!document.getElementById('f-id').value;
-  if(USE_MOCK){
-    await new Promise(r=>setTimeout(r,600));
-    if(isEdit){const i=S.data.findIndex(d=>d.id===row.id);if(i>-1)S.data[i]=row;}
-    else{S.data.unshift(row);}
-  } else {
-    const action=isEdit?'update_data':'add_data';
-    const res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action,sheetName:S.program,data:row})});
-    const j=await res.json();
-    if(!j.success){toast(j.message||'Gagal menyimpan','error');btn.innerHTML=orig;btn.disabled=false;return;}
+  
+  if (!S.program) {
+    toast('Error: Program tidak terpilih!', 'error');
+    return;
   }
-  btn.innerHTML=orig;btn.disabled=false;
-  closeModal();
-  filterTable();
-  toast(isEdit?'Data berhasil diperbarui':'Data berhasil ditambahkan','success');
+
+  const btn = document.getElementById('btn-save');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Menyimpan...';
+  btn.disabled = true;
+  
+  const pctRaw = document.getElementById('f-pct').value.replace('%','');
+  const row = {
+    id: document.getElementById('f-id').value || 'ID-' + Date.now(),
+    bulan: document.getElementById('f-bulan').value,
+    kelas: document.getElementById('f-kelas').value,
+    ikut: parseInt(document.getElementById('f-ikut').value),
+    tdk_ikut: parseInt(document.getElementById('f-tdk').value),
+    persentase: parseFloat(pctRaw),
+    pembina: document.getElementById('f-pembina').value,
+    keterangan: document.getElementById('f-ket').value,
+    tanggal_input: new Date().toISOString().split('T')[0]
+  };
+  
+  const isEdit = !!document.getElementById('f-id').value;
+  
+  try {
+    const action = isEdit ? 'update_data' : 'add_data';
+    
+    // API Call
+    await API.post(action, { sheetName: S.program, data: row });
+    
+    closeModal();
+    toast(isEdit ? 'Data berhasil diperbarui' : 'Data berhasil ditambahkan', 'success');
+    
+    // Auto-refresh Realtime
+    loadData(S.program);
+  } catch (err) {
+    // Error notification handled by API service
+  } finally {
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
 }
 
 function deleteRow(id){
@@ -1147,10 +1267,13 @@ function deleteRow(id){
     confirmButtonText:'Ya, Hapus',cancelButtonText:'Batal'
   }).then(async r=>{
     if(r.isConfirmed){
-      if(USE_MOCK){S.data=S.data.filter(d=>d.id!==id);}
-      else{await fetch(`${GAS_URL}?action=delete_data&sheetName=${S.program}&id=${id}`);}
-      filterTable();
-      toast('Data berhasil dihapus','success');
+      try {
+        await API.get('delete_data', { sheetName: S.program, id: id });
+        toast('Data berhasil dihapus', 'success');
+        loadData(S.program); // Refresh Data
+      } catch (e) {
+        // Error Handled by API
+      }
     }
   });
 }
