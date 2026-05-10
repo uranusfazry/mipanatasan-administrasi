@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+/* --- STYLING TETAP SAMA SEPERTI SEBELUMNYA --- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
 --emerald-50:#ecfdf5;--emerald-100:#d1fae5;--emerald-200:#a7f3d0;--emerald-300:#6ee7b7;
@@ -31,12 +32,12 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 button{cursor:pointer;font-family:inherit}
 input,select,textarea{font-family:inherit}
 
-/* ─── SCROLLBAR ─── */
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
 
-/* ─── LOGIN ─── */
+/* LOGIN */
 #login-screen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:var(--emerald-950)}
 .login-bg{position:absolute;inset:0;overflow:hidden}
 .login-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.25}
@@ -45,40 +46,39 @@ input,select,textarea{font-family:inherit}
 .login-orb-3{width:200px;height:200px;background:var(--gold);top:40%;right:15%;animation:pulse-orb 4s ease-in-out infinite alternate}
 @keyframes pulse-orb{0%{transform:scale(1);opacity:.15}100%{transform:scale(1.3);opacity:.3}}
 .login-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
-
 .login-card{position:relative;z-index:2;width:440px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-xl);padding:48px 44px;backdrop-filter:blur(24px);animation:card-in .6s cubic-bezier(.34,1.56,.64,1) both}
 @keyframes card-in{from{opacity:0;transform:translateY(32px) scale(.96)}to{opacity:1;transform:none}}
-
 .login-logo{width:64px;height:64px;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 8px 32px rgba(16,185,129,.4)}
 .login-logo svg{width:32px;height:32px;fill:white}
 .login-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:white;line-height:1.2}
-.login-sub{color:rgba(255,255,255,.45);font-size:13px;margin-top:6px;margin-bottom:36px}
+.login-sub{color:rgba(255,255,255,.45);font-size:13px;margin-top:6px;margin-bottom:24px}
+.server-status{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:rgba(0,0,0,0.2);margin-bottom:24px;font-size:12px;color:#a7f3d0;}
+.server-status .dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse-orb 2s infinite}
+.server-status.error{color:#fecaca;}
+.server-status.error .dot{background:#ef4444;animation:none}
+.server-status.loading .dot{background:#f59e0b;}
+
 .login-label{display:block;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .login-input-wrap{position:relative;margin-bottom:16px}
 .login-input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:rgba(255,255,255,.3);fill:none;stroke-width:2}
 .login-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:13px 14px 13px 42px;color:white;font-size:14px;outline:none;transition:var(--trans)}
-.login-input::placeholder{color:rgba(255,255,255,.25)}
 .login-input:focus{border-color:var(--emerald-400);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(52,211,153,.15)}
 .login-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);padding:4px;transition:var(--trans)}
-.login-eye:hover{color:rgba(255,255,255,.6)}
 .login-btn{width:100%;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));border:none;border-radius:10px;padding:14px;color:white;font-size:15px;font-weight:600;margin-top:8px;transition:var(--trans);box-shadow:0 4px 20px rgba(16,185,129,.35)}
-.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(16,185,129,.45)}
-.login-btn:active{transform:translateY(0)}
-.login-hint{text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,.2)}
-.login-hint b{color:rgba(255,255,255,.4)}
+.login-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 28px rgba(16,185,129,.45)}
+.login-btn:disabled{opacity:0.7;cursor:not-allowed}
 
-/* ─── APP SHELL ─── */
-#app{display:none;height:100vh;display:none;flex-direction:row}
+/* APP SHELL */
+#app{display:none;height:100vh;flex-direction:row}
 #app.visible{display:flex}
 
-/* ─── SIDEBAR ─── */
+/* SIDEBAR */
 #sidebar{width:260px;background:var(--sidebar-bg);display:flex;flex-direction:column;height:100vh;flex-shrink:0;transition:width var(--trans),transform var(--trans);position:relative;z-index:30}
 #sidebar.collapsed{width:68px}
 #sidebar.collapsed .s-label,.sidebar-section-label,#sidebar.collapsed .s-badge,#sidebar.collapsed #user-name,#sidebar.collapsed #user-role{display:none}
 #sidebar.collapsed .sidebar-item{justify-content:center;padding:10px}
 #sidebar.collapsed .sidebar-item .s-icon{margin:0}
 #sidebar.collapsed #toggle-sidebar{justify-content:center}
-
 .sidebar-top{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;min-height:72px}
 .sidebar-logo{display:flex;align-items:center;gap:12px;overflow:hidden}
 .sidebar-logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(16,185,129,.35)}
@@ -89,10 +89,8 @@ input,select,textarea{font-family:inherit}
 #toggle-sidebar{background:rgba(255,255,255,.06);border:none;border-radius:8px;padding:8px;color:var(--sidebar-muted);display:flex;align-items:center;transition:var(--trans);flex-shrink:0}
 #toggle-sidebar:hover{background:rgba(255,255,255,.1);color:white}
 #toggle-sidebar svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-
 .sidebar-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 10px}
 .sidebar-section-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sidebar-muted);padding:16px 8px 6px;white-space:nowrap}
-
 .sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;border:none;background:none;color:var(--sidebar-text);width:100%;text-align:left;cursor:pointer;transition:var(--trans);position:relative;white-space:nowrap}
 .sidebar-item:hover{background:rgba(255,255,255,.06);color:white}
 .sidebar-item.active{background:var(--sidebar-active);color:white}
@@ -101,75 +99,63 @@ input,select,textarea{font-family:inherit}
 .sidebar-item.active .s-icon{background:rgba(52,211,153,.15)}
 .sidebar-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 .s-label{font-size:13px;font-weight:500;flex:1}
-.s-badge{font-size:10px;font-weight:600;background:rgba(52,211,153,.15);color:var(--emerald-300);padding:2px 7px;border-radius:99px}
-
 .sidebar-footer{padding:14px 10px;border-top:1px solid rgba(255,255,255,.05)}
 .user-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,.04);cursor:pointer;transition:var(--trans)}
 .user-card:hover{background:rgba(255,255,255,.08)}
-.user-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:white;flex-shrink:0}
+.user-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:white;flex-shrink:0;text-transform:uppercase}
 #user-name{font-size:13px;font-weight:500;color:white}
 #user-role{font-size:11px;color:var(--sidebar-muted)}
 .logout-btn{background:none;border:none;color:var(--sidebar-muted);padding:4px;border-radius:6px;transition:var(--trans);display:flex}
 .logout-btn:hover{color:#f87171}
 .logout-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* ─── MAIN ─── */
-#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;position:relative}
 
-/* ─── TOPBAR ─── */
+/* TOPBAR */
 #topbar{height:64px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:16px;flex-shrink:0}
 .topbar-breadcrumb{flex:1;display:flex;align-items:center;gap:6px}
 .bc-root{font-size:13px;color:var(--text-muted)}
 .bc-sep{color:var(--border-strong)}
 .bc-current{font-size:14px;font-weight:600;color:var(--text-primary)}
-.topbar-search{display:flex;align-items:center;gap:8px;background:var(--surface-3);border:1px solid var(--border);border-radius:10px;padding:0 12px;width:220px;transition:var(--trans)}
-.topbar-search:focus-within{border-color:var(--emerald-400);background:white;box-shadow:0 0 0 3px rgba(16,185,129,.1)}
-.topbar-search svg{width:15px;height:15px;stroke:var(--text-muted);fill:none;stroke-width:2;flex-shrink:0}
-.topbar-search input{border:none;background:none;outline:none;font-size:13px;color:var(--text-primary);width:100%;padding:9px 0}
-.topbar-search input::placeholder{color:var(--text-muted)}
-.topbar-actions{display:flex;align-items:center;gap:8px}
+.topbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
 .topbar-icon-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--trans);position:relative}
 .topbar-icon-btn:hover{background:var(--surface-3);color:var(--text-primary)}
 .topbar-icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
-.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:#f87171;border-radius:50%;border:1.5px solid white}
 .topbar-clock{font-size:13px;color:var(--text-muted);padding:0 4px;border-left:1px solid var(--border);margin-left:4px;padding-left:16px;font-variant-numeric:tabular-nums}
 
-/* ─── CONTENT ─── */
-#content{flex:1;overflow-y:auto;padding:28px;display:flex;flex-direction:column;gap:24px}
-
-/* ─── VIEWS ─── */
+/* CONTENT */
+#content{flex:1;overflow-y:auto;padding:28px;display:flex;flex-direction:column;gap:24px;position:relative}
 .view{display:none;flex-direction:column;gap:24px}
 .view.active{display:flex}
 
-/* ─── STAT CARDS ─── */
+/* SPINNER & LOADING */
+.global-loader{position:absolute;inset:0;background:rgba(255,255,255,0.7);backdrop-filter:blur(4px);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.global-loader.show{opacity:1;pointer-events:all}
+.spinner{width:36px;height:36px;border:3px solid var(--emerald-200);border-top-color:var(--emerald-600);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.skeleton{background:linear-gradient(90deg,var(--surface-2) 25%,var(--surface-3) 50%,var(--surface-2) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.5s infinite;border-radius:6px;color:transparent!important;border-color:transparent!important}
+@keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton *{visibility:hidden}
+
+/* STAT CARDS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;transition:var(--trans)}
 .stat-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
 .stat-card-top{display:flex;align-items:flex-start;justify-content:space-between}
 .stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
 .stat-icon svg{width:22px;height:22px;fill:none;stroke-width:2}
-.stat-trend{font-size:12px;font-weight:600;display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:99px}
-.trend-up{background:var(--emerald-50);color:var(--emerald-700)}
-.trend-down{background:#fef2f2;color:#dc2626}
-.trend-neutral{background:var(--surface-3);color:var(--text-muted)}
-.stat-trend svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5}
 .stat-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;color:var(--text-primary);line-height:1}
 .stat-label{font-size:13px;color:var(--text-muted)}
-.stat-sparkline{height:36px;margin-top:4px}
 
-/* ─── SECTION TITLES ─── */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0}
-.section-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text-primary)}
-.section-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
-
-/* ─── CHART CARDS ─── */
+/* CHART CARDS */
 .chart-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
 .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;overflow:hidden}
 .chart-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
 .chart-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
 .chart-subtitle{font-size:12px;color:var(--text-muted);margin-top:2px}
 
-/* ─── RANKING CARD ─── */
+/* RANKING CARD */
 .rank-list{display:flex;flex-direction:column;gap:10px}
 .rank-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface-2);border-radius:10px;transition:var(--trans)}
 .rank-item:hover{background:var(--surface-3)}
@@ -181,7 +167,7 @@ input,select,textarea{font-family:inherit}
 .rank-bar{height:3px;background:var(--border);border-radius:99px;margin-top:5px;overflow:hidden}
 .rank-bar-fill{height:100%;background:linear-gradient(90deg,var(--emerald-400),var(--emerald-600));border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
 
-/* ─── ACTIVITY TIMELINE ─── */
+/* ACTIVITY TIMELINE */
 .activity-list{display:flex;flex-direction:column;gap:0}
 .activity-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
 .activity-item:last-child{border-bottom:none}
@@ -193,23 +179,25 @@ input,select,textarea{font-family:inherit}
 .act-msg b{color:var(--emerald-700)}
 .act-time{font-size:11px;color:var(--text-muted);margin-top:3px}
 
-/* ─── HEATMAP GRID ─── */
+/* HEATMAP GRID */
 .heatmap-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
-.hm-cell{aspect-ratio:1;border-radius:4px;transition:var(--trans);cursor:default}
+.hm-cell{aspect-ratio:1;border-radius:4px;transition:var(--trans);cursor:default;position:relative}
+.hm-cell:hover{transform:scale(1.1);box-shadow:var(--shadow-sm);z-index:2}
 .hm-labels{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:6px}
 .hm-label{font-size:9px;color:var(--text-muted);text-align:center}
 
-/* ─── PROGRAM TABLE VIEW ─── */
-.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;flex:1;display:flex;flex-direction:column}
+/* PROGRAM TABLE VIEW */
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;flex:1;display:flex;flex-direction:column;position:relative}
 .table-toolbar{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface-2)}
 .tbl-search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:0 10px;flex:1;max-width:280px}
 .tbl-search svg{width:14px;height:14px;stroke:var(--text-muted);fill:none;stroke-width:2;flex-shrink:0}
 .tbl-search input{border:none;background:none;outline:none;font-size:13px;color:var(--text-primary);width:100%;padding:8px 0}
 .tbl-select{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:13px;color:var(--text-primary);outline:none;cursor:pointer}
 .tbl-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;transition:var(--trans);border:1px solid var(--border);background:var(--surface);color:var(--text-secondary)}
-.tbl-btn:hover{background:var(--surface-3);color:var(--text-primary)}
+.tbl-btn:hover:not(:disabled){background:var(--surface-3);color:var(--text-primary)}
 .tbl-btn-primary{background:var(--emerald-600);border-color:var(--emerald-600);color:white}
-.tbl-btn-primary:hover{background:var(--emerald-700);border-color:var(--emerald-700)}
+.tbl-btn-primary:hover:not(:disabled){background:var(--emerald-700);border-color:var(--emerald-700)}
+.tbl-btn:disabled{opacity:0.6;cursor:not-allowed}
 .tbl-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 .tbl-spacer{flex:1}
 
@@ -217,16 +205,14 @@ table.data-table{width:100%;border-collapse:collapse;min-width:750px}
 table.data-table thead th{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface-2);white-space:nowrap}
 table.data-table tbody td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-primary);vertical-align:middle}
 table.data-table tbody tr:last-child td{border-bottom:none}
-table.data-table tbody tr{transition:background var(--trans)}
 table.data-table tbody tr:hover{background:var(--surface-2)}
-.tbl-overflow{overflow-x:auto;flex:1}
+.tbl-overflow{overflow-x:auto;flex:1;position:relative}
 
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
 .badge-green{background:var(--emerald-50);color:var(--emerald-700)}
 .badge-yellow{background:#fefce8;color:#a16207}
 .badge-red{background:#fef2f2;color:#dc2626}
 .badge-gray{background:var(--surface-3);color:var(--text-muted)}
-.badge-class{background:var(--surface-3);color:var(--text-secondary);font-size:11px}
 
 .tbl-pct-bar{height:4px;background:var(--surface-3);border-radius:99px;width:60px;display:inline-block;vertical-align:middle;overflow:hidden}
 .tbl-pct-fill{height:100%;border-radius:99px;transition:width .4s}
@@ -240,20 +226,17 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
 .tbl-info{font-size:12px;color:var(--text-muted)}
 .tbl-pages{display:flex;gap:4px}
 .page-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:var(--trans)}
-.page-btn:hover{background:var(--surface-3)}
+.page-btn:hover:not(:disabled){background:var(--surface-3)}
 .page-btn.active{background:var(--emerald-600);border-color:var(--emerald-600);color:white}
+.page-btn:disabled{opacity:0.5;cursor:not-allowed}
 .page-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* empty state */
+/* EMPTY STATE */
 .empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:48px;color:var(--text-muted)}
 .empty-state svg{width:48px;height:48px;stroke:var(--border-strong);fill:none;stroke-width:1.5}
 .empty-state p{font-size:13px}
 
-/* ─── SKELETON ─── */
-.skeleton{background:linear-gradient(90deg,var(--surface-2) 25%,var(--surface-3) 50%,var(--surface-2) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.5s infinite;border-radius:6px}
-@keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-/* ─── MODAL ─── */
+/* MODAL */
 #modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(4,43,30,.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity var(--trans)}
 #modal-overlay.open{opacity:1;pointer-events:all}
 .modal-card{background:var(--surface);border-radius:var(--radius-xl);width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(.95) translateY(16px);transition:transform var(--trans),opacity var(--trans);opacity:0}
@@ -279,10 +262,11 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
 .btn-cancel{padding:9px 18px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:var(--trans)}
 .btn-cancel:hover{background:var(--surface-3)}
 .btn-save{padding:9px 22px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--emerald-500),var(--emerald-700));color:white;font-size:13px;font-weight:600;cursor:pointer;transition:var(--trans);display:flex;align-items:center;gap:6px}
-.btn-save:hover{box-shadow:0 4px 16px rgba(16,185,129,.35);transform:translateY(-1px)}
+.btn-save:hover:not(:disabled){box-shadow:0 4px 16px rgba(16,185,129,.35);transform:translateY(-1px)}
+.btn-save:disabled{opacity:0.7;cursor:not-allowed}
 .btn-save svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
 
-/* ─── TOAST ─── */
+/* TOAST */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:300;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--sidebar-bg);color:white;padding:12px 16px;border-radius:12px;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toast-in .35s cubic-bezier(.34,1.56,.64,1) both;max-width:320px}
 .toast.hiding{animation:toast-out .25s ease-in forwards}
@@ -293,7 +277,7 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
 .toast-error .toast-icon{background:#dc2626}
 .toast-icon svg{width:13px;height:13px;stroke:white;fill:none;stroke-width:2.5}
 
-/* ─── RESPONSIVE ─── */
+/* RESPONSIVE */
 @media(max-width:1200px){.stats-grid{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr}}
 @media(max-width:768px){
   #sidebar{position:fixed;height:100vh;z-index:50;transform:translateX(-100%)}
@@ -305,7 +289,7 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
   .topbar-search{display:none}
 }
 
-/* ─── MISC ─── */
+/* MISC */
 .prog-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .prog-header-info h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700}
 .prog-header-info p{font-size:13px;color:var(--text-muted);margin-top:4px}
@@ -326,7 +310,7 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN SCREEN -->
 <div id="login-screen">
   <div class="login-bg">
     <div class="login-grid"></div>
@@ -338,162 +322,121 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
     <div class="login-logo">
       <svg viewBox="0 0 24 24"><path d="M12 3C9.5 3 7.5 4.5 6.5 6.5C5 7 3.5 8.5 3.5 10.5C3.5 12.5 5 14 7 14H9V16H7.5C7.5 16 6 17.5 6 19H18C18 17.5 16.5 16 16.5 16H15V14H17C19 14 20.5 12.5 20.5 10.5C20.5 8.5 19 7 17.5 6.5C16.5 4.5 14.5 3 12 3Z"/></svg>
     </div>
-    <div class="login-title">Selamat Datang</div>
-    <div class="login-sub">MI Panatasan — Sistem Administrasi Digital</div>
-    <form onsubmit="handleLogin(event)">
+    <div class="login-title">MI Panatasan</div>
+    <div class="login-sub">Sistem Administrasi Digital Berbasis Vercel</div>
+    
+    <div id="server-status" class="server-status loading">
+      <div class="dot"></div>
+      <span id="server-status-text">Memeriksa koneksi server...</span>
+    </div>
+
+    <form id="login-form" onsubmit="Auth.login(event)">
       <label class="login-label">Username</label>
       <div class="login-input-wrap">
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
-        <input id="inp-user" class="login-input" type="text" placeholder="admin" autocomplete="username" required>
+        <input id="inp-user" class="login-input" type="text" placeholder="Masukkan username" required disabled>
       </div>
       <label class="login-label">Password</label>
       <div class="login-input-wrap">
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-        <input id="inp-pass" class="login-input" type="password" placeholder="••••••••" autocomplete="current-password" required>
-        <button type="button" class="login-eye" onclick="togglePwd()" title="Tampilkan password">
-          <svg id="eye-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+        <input id="inp-pass" class="login-input" type="password" placeholder="••••••••" required disabled>
+        <button type="button" class="login-eye" onclick="Auth.togglePwd()" title="Tampilkan password">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
         </button>
       </div>
-      <button type="submit" class="login-btn" id="login-btn">Masuk ke Dashboard</button>
-      <div class="login-hint">Gunakan <b>admin</b> / <b>admin123</b> untuk demo</div>
+      <button type="submit" class="login-btn" id="login-btn" disabled>Tunggu Koneksi...</button>
     </form>
   </div>
 </div>
 
-<!-- APP -->
+<!-- APP SHELL -->
 <div id="app">
-
-  <!-- SIDEBAR MOBILE OVERLAY -->
-  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="App.closeMobileSidebar()"></div>
 
   <!-- SIDEBAR -->
   <aside id="sidebar">
     <div class="sidebar-top">
       <div class="sidebar-logo">
-        <div class="sidebar-logo-mark">
-          <svg viewBox="0 0 24 24"><path d="M12 3C9.5 3 7.5 4.5 6.5 6.5C5 7 3.5 8.5 3.5 10.5C3.5 12.5 5 14 7 14H9V16H7.5C7.5 16 6 17.5 6 19H18C18 17.5 16.5 16 16.5 16H15V14H17C19 14 20.5 12.5 20.5 10.5C20.5 8.5 19 7 17.5 6.5C16.5 4.5 14.5 3 12 3Z"/></svg>
-        </div>
+        <div class="sidebar-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 3C9.5 3 7.5 4.5 6.5 6.5C5 7 3.5 8.5 3.5 10.5C3.5 12.5 5 14 7 14H9V16H7.5C7.5 16 6 17.5 6 19H18C18 17.5 16.5 16 16.5 16H15V14H17C19 14 20.5 12.5 20.5 10.5C20.5 8.5 19 7 17.5 6.5C16.5 4.5 14.5 3 12 3Z"/></svg></div>
         <div class="sidebar-logo-text">
           <div class="sidebar-logo-name">MI Panatasan</div>
           <div class="sidebar-logo-sub">Admin Enterprise</div>
         </div>
       </div>
-      <button id="toggle-sidebar" onclick="toggleSidebar()" title="Toggle sidebar">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-      </button>
+      <button id="toggle-sidebar" onclick="App.toggleSidebar()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
     </div>
-
-    <div class="sidebar-body">
-      <nav id="sidebar-nav"></nav>
-    </div>
-
+    <div class="sidebar-body"><nav id="sidebar-nav"></nav></div>
     <div class="sidebar-footer">
-      <div class="user-card" onclick="handleLogout()">
-        <div class="user-avatar">AD</div>
+      <div class="user-card" onclick="Auth.logout()">
+        <div class="user-avatar" id="user-avatar-text">AD</div>
         <div style="flex:1;min-width:0">
           <div id="user-name">Administrator</div>
-          <div id="user-role">Super Admin</div>
+          <div id="user-role">Role</div>
         </div>
-        <button class="logout-btn" title="Logout">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg>
-        </button>
+        <button class="logout-btn" title="Logout"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg></button>
       </div>
     </div>
   </aside>
 
-  <!-- MAIN -->
+  <!-- MAIN AREA -->
   <main id="main">
-    <!-- TOPBAR -->
     <header id="topbar">
-      <button class="topbar-icon-btn" style="display:none" id="mobile-menu-btn" onclick="openMobileSidebar()">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-      </button>
+      <button class="topbar-icon-btn" style="display:none" id="mobile-menu-btn" onclick="App.openMobileSidebar()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
       <div class="topbar-breadcrumb">
-        <span class="bc-root">MI Panatasan</span>
-        <span class="bc-sep">/</span>
-        <span class="bc-current" id="bc-current">Dashboard</span>
-      </div>
-      <div class="topbar-search">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 15.803 7.5 7.5 0 0 0 15.803 15.803Z"/></svg>
-        <input type="text" placeholder="Cari program, kelas...">
+        <span class="bc-root">MI Panatasan</span><span class="bc-sep">/</span><span class="bc-current" id="bc-current">Dashboard</span>
       </div>
       <div class="topbar-actions">
-        <div class="topbar-icon-btn" title="Notifikasi">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
-          <span class="notif-dot"></span>
-        </div>
+        <button class="topbar-icon-btn" title="Refresh" onclick="App.refreshCurrentView()">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+        </button>
         <div class="topbar-clock" id="topbar-clock">08:00</div>
       </div>
     </header>
 
-    <!-- CONTENT -->
     <div id="content">
-
       <!-- DASHBOARD VIEW -->
       <div id="view-dashboard" class="view active">
+        <div class="global-loader" id="dash-loader">
+          <div class="spinner"></div><p style="font-weight:600;color:var(--emerald-700)">Sinkronisasi Realtime...</p>
+        </div>
         <div class="insight-bar">
           <div class="insight-glyph">✨</div>
           <div class="insight-text">
-            <h4>Rangkuman Bulan Ini</h4>
-            <p>Partisipasi program Tahfidz meningkat 14% dibanding bulan lalu. Kelas 4 menjadi kelas paling aktif minggu ini dengan rata-rata 94% kehadiran.</p>
+            <h4>Koneksi Vercel Stabil</h4>
+            <p>Berhasil terhubung ke server Google Apps Script menggunakan API Mode CORS. Semua data langsung tersimpan ke Spreadsheet tanpa hambatan preflight request.</p>
           </div>
-          <button class="insight-action" onclick="navigate('tahfidz','Tahfidz')">Lihat Detail →</button>
         </div>
-
-        <div class="stats-grid" id="stats-grid">
-          <!-- filled by JS -->
-        </div>
-
+        <div class="stats-grid" id="stats-grid"></div>
         <div class="chart-grid">
           <div class="chart-card">
             <div class="chart-head">
-              <div>
-                <div class="chart-title">Tren Partisipasi Program</div>
-                <div class="chart-subtitle">6 bulan terakhir · semua program utama</div>
-              </div>
-              <select class="tbl-select" style="font-size:12px;padding:5px 28px 5px 8px" onchange="updateTrendChart(this.value)">
-                <option value="all">Semua Program</option>
-                <option value="ibadah">Program Ibadah</option>
-                <option value="ekstra">Ekstrakurikuler</option>
+              <div><div class="chart-title">Tren Partisipasi</div><div class="chart-subtitle">Analisis rata-rata bulanan</div></div>
+              <select class="tbl-select" style="font-size:12px;padding:5px 28px 5px 8px" id="trend-filter" onchange="Dashboard.renderTrendChart()">
+                <option value="all">Semua Kategori</option><option value="ibadah">Program Ibadah</option><option value="ekstra">Ekstrakurikuler</option>
               </select>
             </div>
             <div id="trend-chart" style="height:260px"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-head">
-              <div>
-                <div class="chart-title">Distribusi Kategori</div>
-                <div class="chart-subtitle">Persentase per jenis program</div>
-              </div>
-            </div>
+            <div class="chart-head"><div><div class="chart-title">Distribusi Kategori</div><div class="chart-subtitle">Proporsi data</div></div></div>
             <div id="donut-chart" style="height:260px"></div>
           </div>
         </div>
-
         <div class="chart-grid" style="grid-template-columns:1fr 1fr">
           <div class="chart-card">
-            <div class="chart-head"><div><div class="chart-title">Ranking Program Terbaik</div><div class="chart-subtitle">Berdasarkan rata-rata partisipasi</div></div></div>
+            <div class="chart-head"><div><div class="chart-title">Top 5 Program Terbaik</div><div class="chart-subtitle">Berdasarkan partisipasi tertinggi</div></div></div>
             <div class="rank-list" id="rank-list"></div>
           </div>
           <div class="chart-card">
-            <div class="chart-head"><div><div class="chart-title">Aktivitas Terbaru</div><div class="chart-subtitle">Input data real-time</div></div></div>
+            <div class="chart-head"><div><div class="chart-title">Audit Log Realtime</div><div class="chart-subtitle">Aktivitas admin terbaru</div></div></div>
             <div class="activity-list" id="activity-list"></div>
           </div>
         </div>
-
         <div class="chart-card">
           <div class="chart-head">
             <div>
-              <div class="chart-title">Heatmap Partisipasi Bulanan</div>
-              <div class="chart-subtitle">Tingkat partisipasi per bulan (Jan–Des 2025)</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)">
-              <span>Rendah</span>
-              <div style="width:12px;height:12px;border-radius:3px;background:#d1fae5"></div>
-              <div style="width:12px;height:12px;border-radius:3px;background:#6ee7b7"></div>
-              <div style="width:12px;height:12px;border-radius:3px;background:#10b981"></div>
-              <div style="width:12px;height:12px;border-radius:3px;background:#065f46"></div>
-              <span>Tinggi</span>
+              <div class="chart-title">Heatmap Kepadatan Partisipasi</div>
+              <div class="chart-subtitle">Sebaran partisipasi 1 tahun terakhir</div>
             </div>
           </div>
           <div class="hm-labels" id="hm-labels"></div>
@@ -501,36 +444,26 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
         </div>
       </div>
 
-      <!-- PROGRAM VIEW -->
+      <!-- PROGRAM (TABLE) VIEW -->
       <div id="view-program" class="view">
         <div class="prog-header">
           <div class="prog-header-info">
             <h2 id="prog-title">Program</h2>
-            <p id="prog-sub">Kelola data partisipasi siswa bulanan</p>
+            <p id="prog-sub">Kelola data program</p>
           </div>
           <div class="prog-actions">
-            <button class="tbl-btn" onclick="exportCSV()">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-              Export CSV
-            </button>
-            <button class="tbl-btn" onclick="window.print()">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"/></svg>
-              Cetak
-            </button>
-            <button class="tbl-btn tbl-btn-primary" onclick="openModal()">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-              Tambah Data
-            </button>
+            <button class="tbl-btn" onclick="Table.exportCSV()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Export CSV</button>
+            <button class="tbl-btn tbl-btn-primary" onclick="Table.openModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg> Tambah Data</button>
           </div>
         </div>
-
         <div class="table-card">
+          <div class="global-loader" id="table-loader"><div class="spinner"></div><p style="font-weight:600;color:var(--emerald-700)">Memuat Data API...</p></div>
           <div class="table-toolbar">
             <div class="tbl-search">
               <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 15.803 7.5 7.5 0 0 0 15.803 15.803Z"/></svg>
-              <input type="text" id="tbl-search-input" placeholder="Cari bulan, kelas, pembina..." onkeyup="filterTable()">
+              <input type="text" id="tbl-search-input" placeholder="Pencarian..." onkeyup="Table.filterData()">
             </div>
-            <select class="tbl-select" id="filter-kelas" onchange="filterTable()">
+            <select class="tbl-select" id="filter-kelas" onchange="Table.filterData()">
               <option value="">Semua Kelas</option>
               <option>Kelas 1</option><option>Kelas 2</option><option>Kelas 3</option>
               <option>Kelas 4</option><option>Kelas 5</option><option>Kelas 6</option>
@@ -538,9 +471,9 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
             </select>
             <div class="tbl-spacer"></div>
             <span style="font-size:12px;color:var(--text-muted)">Tampilkan</span>
-            <select class="tbl-select" id="limit-select" onchange="renderTable()">
-              <option value="5">5</option><option value="10" selected>10</option>
-              <option value="20">20</option><option value="100">Semua</option>
+            <select class="tbl-select" id="limit-select" onchange="Table.render()">
+              <option value="10" selected>10</option>
+              <option value="25">25</option><option value="50">50</option>
             </select>
           </div>
           <div class="tbl-overflow">
@@ -548,20 +481,16 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
               <thead>
                 <tr>
                   <th style="width:48px">#</th>
-                  <th>Bulan / Tahun</th>
-                  <th>Kelas</th>
-                  <th style="text-align:center">Ikut</th>
-                  <th style="text-align:center">Tdk Ikut</th>
-                  <th>Partisipasi</th>
-                  <th>Pembina</th>
-                  <th style="text-align:center;width:80px">Aksi</th>
+                  <th>Bulan / Tahun</th><th>Kelas</th><th style="text-align:center">Ikut</th>
+                  <th style="text-align:center">Tdk Ikut</th><th>Partisipasi</th>
+                  <th>Pembina</th><th style="text-align:center;width:80px">Aksi</th>
                 </tr>
               </thead>
               <tbody id="table-body"></tbody>
             </table>
             <div class="empty-state" id="empty-state" style="display:none">
               <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/></svg>
-              <p>Belum ada data untuk program ini</p>
+              <p>Tidak ada data ditemukan</p>
             </div>
           </div>
           <div class="tbl-footer">
@@ -570,21 +499,18 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
           </div>
         </div>
       </div>
-
-    </div><!-- /content -->
+    </div>
   </main>
-</div><!-- /app -->
+</div>
 
-<!-- MODAL -->
+<!-- MODAL FORM -->
 <div id="modal-overlay">
   <div class="modal-card">
     <div class="modal-header">
-      <div class="modal-title" id="modal-title">Tambah Data Baru</div>
-      <button class="modal-close" onclick="closeModal()">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
+      <div class="modal-title" id="modal-title">Form Data</div>
+      <button class="modal-close" onclick="Table.closeModal()"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg></button>
     </div>
-    <form id="data-form" onsubmit="submitForm(event)">
+    <form id="data-form" onsubmit="Table.submitForm(event)">
       <input type="hidden" id="f-id">
       <div class="modal-body">
         <div class="form-row">
@@ -605,15 +531,15 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
         <div class="form-row">
           <div class="form-group" style="margin:0">
             <label class="form-label">Jumlah Ikut</label>
-            <input type="number" id="f-ikut" class="form-input" min="0" required oninput="calcPct()">
+            <input type="number" id="f-ikut" class="form-input" min="0" required oninput="Table.calcPct()">
           </div>
           <div class="form-group" style="margin:0">
-            <label class="form-label">Jumlah Tidak Ikut</label>
-            <input type="number" id="f-tdk" class="form-input" min="0" required oninput="calcPct()">
+            <label class="form-label">Jumlah Tdk Ikut</label>
+            <input type="number" id="f-tdk" class="form-input" min="0" required oninput="Table.calcPct()">
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Partisipasi</label>
+          <label class="form-label">Persentase</label>
           <div class="pct-display">
             <input type="text" id="f-pct" class="form-input" readonly style="width:90px;flex-shrink:0">
             <div class="pct-bar-wrap"><div class="pct-bar-fill" id="pct-bar" style="width:0%"></div></div>
@@ -621,692 +547,442 @@ table.data-table tbody tr:hover{background:var(--surface-2)}
         </div>
         <div class="form-group">
           <label class="form-label">Nama Pembina</label>
-          <input type="text" id="f-pembina" class="form-input" placeholder="Cth: Ust. Ahmad" required>
+          <input type="text" id="f-pembina" class="form-input" required>
         </div>
         <div class="form-group">
           <label class="form-label">Keterangan</label>
-          <textarea id="f-ket" class="form-textarea" rows="2" placeholder="Catatan opsional..."></textarea>
+          <textarea id="f-ket" class="form-textarea" rows="2"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+        <button type="button" class="btn-cancel" onclick="Table.closeModal()">Batal</button>
         <button type="submit" class="btn-save" id="btn-save">
           <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/></svg>
-          Simpan Data
+          <span>Simpan Data</span>
         </button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- TOAST CONTAINER -->
+<!-- TOAST -->
 <div class="toast-container" id="toast-container"></div>
 
 <script>
-// ─── 1. ENTERPRISE CONFIG & STATE ────────────────────────
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * MODULAR JAVASCRIPT (CLEAN ARCHITECTURE)
+ * ═══════════════════════════════════════════════════════════════
+ */
+
+// --- 1. CONFIG & API SERVICE ---
 const CONFIG = {
-  // PENTING: Ganti dengan URL /exec Apps Script Anda
-  API_URL: 'https://script.google.com/macros/s/AKfycby-YOUR-API-KEY/exec',
-  TOKEN: 'MI_PANATASAN_SECRET_2025',
-  ENV: 'production'
+  // WAJIB GANTI URL INI DENGAN HASIL DEPLOY APPS SCRIPT ANDA (/exec)
+  API_URL: 'https://script.google.com/macros/s/AKfycbz5Hbsh-QJjs3GN6bY-lxPfeq-87EjHvryXGHKH21E0/exec',
+  API_TOKEN: 'MI_PANATASAN_SECRET_2025'
 };
 
-const S = {
-  view: 'dashboard', 
-  program: null,
-  data: [], 
-  filtered: [], 
-  page: 1, 
-  limit: 10,
-  charts: {}
-};
-
-// ─── 2. API SERVICE LAYER (CORS & RETRY HANDLER) ─────────
-const API = {
-  async fetch(action, params = {}, method = 'GET', body = null) {
+const Api = {
+  async get(action, params = {}) {
+    params.token = CONFIG.API_TOKEN;
+    params.action = action;
+    const q = new URLSearchParams(params).toString();
     try {
-      const url = new URL(CONFIG.API_URL);
-      url.searchParams.append('action', action);
-      
-      // Inject token & GET params
-      if (method === 'GET') {
-        url.searchParams.append('token', CONFIG.TOKEN);
-        Object.keys(params).forEach(k => url.searchParams.append(k, params[k]));
-      }
-
-      const options = { method };
-      
-      if (method === 'POST') {
-        // HACK: Gunakan text/plain untuk bypass CORS Preflight (OPTIONS) di Google Apps Script
-        options.body = JSON.stringify({ action, token: CONFIG.TOKEN, ...body });
-        options.headers = { 'Content-Type': 'text/plain;charset=utf-8' };
-      }
-
-      const res = await fetch(url, options);
-      const json = await res.json();
-
-      if (!json.success) throw new Error(json.error?.message || 'Terjadi kesalahan API');
-      return json;
-    } catch (err) {
-      console.error(`[API Error - ${action}]:`, err);
-      toast(err.message, 'error');
-      throw err;
+      const res = await fetch(`${CONFIG.API_URL}?${q}`, { mode: 'cors' });
+      if(!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    } catch(err) {
+      console.error('GET Error:', err);
+      return { success: false, error: { message: 'Gagal terhubung ke server (Network Error)' } };
     }
   },
-  get(action, params) { return this.fetch(action, params, 'GET'); },
-  post(action, payload) { return this.fetch(action, {}, 'POST', payload); }
-};
 
-// ─── MENUS ────────────────────────────────────────────
-const MENUS = [
-  {id:'dashboard',label:'Dashboard',icon:'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'},
-  {section:'Program Ibadah'},
-  {id:'shalat_dhuha',label:'Shalat Dhuha',icon:'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z'},
-  {id:'doa_harian',label:"Membaca Do'a Harian",icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25'},
-  {id:'asmaul_husna',label:'Asmaul Husna',icon:'M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z'},
-  {id:'tadarus',label:"Tadarus Al-Qur'an",icon:'M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z'},
-  {id:'shalat_dzuhur',label:'Shalat Dzuhur Berjamaah',icon:'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'},
-  {id:'tahfidz',label:'Tahfidz',icon:'M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0'},
-  {section:'Ekstrakurikuler & Umum'},
-  {id:'tik',label:'Program TIK',icon:'M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25'},
-  {id:'pramuka',label:'Pramuka',icon:'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z'},
-  {id:'drumband',label:'Drumband',icon:'M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z'},
-  {id:'pencak_silat',label:'Pencak Silat',icon:'M10.05 4.575a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM5.273 8.073a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Zm9.454 0a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM4.5 20.25a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Zm14.25 0a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM12 20.25a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Z'},
-  {id:'kesehatan',label:'Kesehatan Madrasah',icon:'M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'},
-  {id:'bhakti_sosial',label:'Bhakti Sosial',icon:'M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z'},
-  {id:'pesantren_kilat',label:'Pesantren Kilat',icon:'M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z'},
-];
-
-// ─── STATE ────────────────────────────────────────────
-const S = {
-  view:'dashboard', program:null,
-  data:[], filtered:[], page:1, limit:10,
-  charts:{},
-};
-
-// ─── BOOT ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  buildSidebar();
-  startClock();
-  if(sessionStorage.getItem('auth')==='1'){showApp();navigate('dashboard');}
-  checkMobile();
-  window.addEventListener('resize',checkMobile);
-});
-
-function checkMobile(){
-  const btn=document.getElementById('mobile-menu-btn');
-  btn.style.display=window.innerWidth<768?'flex':'none';
-}
-
-// ─── AUTH ─────────────────────────────────────────────
-function handleLogin(e){
-  e.preventDefault();
-  const u=document.getElementById('inp-user').value;
-  const p=document.getElementById('inp-pass').value;
-  const btn=document.getElementById('login-btn');
-  if(u==='admin'&&p==='admin123'){
-    btn.textContent='Memverifikasi...';
-    btn.disabled=true;
-    setTimeout(()=>{
-      sessionStorage.setItem('auth','1');
-      document.getElementById('login-screen').style.display='none';
-      showApp();
-      navigate('dashboard');
-    },900);
-  } else {
-    Swal.fire({icon:'error',title:'Login Gagal',text:'Username atau password salah!',confirmButtonColor:'#059669'});
+  async post(action, payload = {}) {
+    payload.token = CONFIG.API_TOKEN;
+    payload.action = action;
+    try {
+      // TEKNIK RAHASIA BYPASS CORS GOOGLE APPS SCRIPT:
+      // Gunakan text/plain agar browser tidak mengirimkan preflight OPTIONS yang selalu di-block GAS
+      const res = await fetch(CONFIG.API_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    } catch(err) {
+      console.error('POST Error:', err);
+      return { success: false, error: { message: 'Gagal terhubung ke server saat mengirim data' } };
+    }
   }
-}
+};
 
-function handleLogout(){
-  Swal.fire({title:'Logout?',text:'Sesi akan diakhiri.',icon:'warning',showCancelButton:true,
-    confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',
-    confirmButtonText:'Ya, Logout',cancelButtonText:'Batal'
-  }).then(r=>{if(r.isConfirmed){sessionStorage.removeItem('auth');location.reload();}});
-}
+// --- 2. UTILS ---
+const Utils = {
+  toast(msg, type='success') {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = `toast toast-${type}`;
+    const icon = type==='success'
+      ?'<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>'
+      :'<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>';
+    t.innerHTML = `<div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="13" height="13"><path d="${icon}"/></svg></div><span>${msg}</span>`;
+    c.appendChild(t);
+    setTimeout(()=>{ t.classList.add('hiding'); setTimeout(()=>t.remove(),300); }, 3000);
+  },
+  fmtBulan(ym) {
+    if(!ym) return '-'; const [y,m] = ym.split('-'); if(!y || !m) return ym;
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+    return `${months[parseInt(m)-1]} ${y}`;
+  }
+};
 
-function togglePwd(){
-  const inp=document.getElementById('inp-pass');
-  inp.type=inp.type==='password'?'text':'password';
-}
+// --- 3. AUTH SERVICE ---
+const Auth = {
+  user: null,
+  
+  async checkHealth() {
+    const statEl = document.getElementById('server-status');
+    const statTxt = document.getElementById('server-status-text');
+    const btn = document.getElementById('login-btn');
+    const inpUser = document.getElementById('inp-user');
+    const inpPass = document.getElementById('inp-pass');
 
-function showApp(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('visible');
-}
-
-// ─── SIDEBAR ─────────────────────────────────────────
-function buildSidebar(){
-  let html='';
-  MENUS.forEach(m=>{
-    if(m.section){
-      html+=`<div class="sidebar-section-label">${m.section}</div>`;
+    const res = await Api.get('health');
+    if(res.success) {
+      statEl.className = 'server-status'; // removes loading/error
+      statTxt.textContent = 'Koneksi API Server Stabil';
+      btn.disabled = false; btn.textContent = 'Masuk ke Dashboard';
+      inpUser.disabled = false; inpPass.disabled = false;
     } else {
-      html+=`<button class="sidebar-item" id="menu-${m.id}" onclick="navigate('${m.id}','${m.label}')">
-        <span class="s-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${m.icon}"/></svg></span>
-        <span class="s-label">${m.label}</span>
-      </button>`;
+      statEl.className = 'server-status error';
+      statTxt.textContent = 'Gagal terhubung ke API Server';
+      Utils.toast('Pastikan URL Apps Script benar dan di-deploy dengan opsi "Anyone".', 'error');
     }
-  });
-  document.getElementById('sidebar-nav').innerHTML=html;
-}
+  },
 
-let sidebarCollapsed=false;
-function toggleSidebar(){
-  sidebarCollapsed=!sidebarCollapsed;
-  document.getElementById('sidebar').classList.toggle('collapsed',sidebarCollapsed);
-}
-function openMobileSidebar(){
-  document.getElementById('sidebar').classList.add('mobile-open');
-  document.getElementById('sidebar-overlay').classList.add('show');
-}
-function closeMobileSidebar(){
-  document.getElementById('sidebar').classList.remove('mobile-open');
-  document.getElementById('sidebar-overlay').classList.remove('show');
-}
-
-// ─── NAVIGATION ──────────────────────────────────────
-function navigate(id,label){
-  label=label||'Dashboard';
-  S.view=id;
-  document.getElementById('bc-current').textContent=label;
-  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
-  const m=document.getElementById('menu-'+id);
-  if(m)m.classList.add('active');
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  if(id==='dashboard'){
-    document.getElementById('view-dashboard').classList.add('active');
-    initDashboard();
-  } else {
-    S.program=id;
-    S.page=1;
-    document.getElementById('view-program').classList.add('active');
-    document.getElementById('prog-title').textContent=label;
-    document.getElementById('prog-sub').textContent='Kelola data partisipasi siswa bulanan — '+label;
-    loadData(id);
-  }
-  if(window.innerWidth<768)closeMobileSidebar();
-}
-
-// ─── CLOCK ───────────────────────────────────────────
-function startClock(){
-  function tick(){
-    const now=new Date();
-    const h=String(now.getHours()).padStart(2,'0');
-    const min=String(now.getMinutes()).padStart(2,'0');
-    const d=now.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
-    document.getElementById('topbar-clock').textContent=`${d} · ${h}:${min}`;
-  }
-  tick();setInterval(tick,30000);
-}
-
-// ─── DASHBOARD ───────────────────────────────────────
-async function initDashboard(){
-  try {
-    // 5. REALTIME DASHBOARD ANALYTICS
-    const res = await API.get('get_dashboard');
-    const data = res.data;
-
-    const STAT_DATA = [
-      {label:'Total Laporan Data', value: data.totalEntries, trend:'Realtime', up:true, icon:'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z', color:'#ede9fe', stroke:'#7c3aed'},
-      {label:'Total Program', value: data.programCount, trend:'Aktif', up:null, icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25', color:'#dbeafe', stroke:'#2563eb'},
-      {label:'Rata-rata Partisipasi', value: data.avgParticipation + '%', trend:'Bulan Ini', up:true, icon:'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941', color:'#fef3c7', stroke:'#d97706'}
-    ];
+  async login(e) {
+    e.preventDefault();
+    const u = document.getElementById('inp-user').value;
+    const p = document.getElementById('inp-pass').value;
+    const btn = document.getElementById('login-btn');
     
-    // Render Realtime Data
-    const grid = document.getElementById('stats-grid');
-    grid.innerHTML = STAT_DATA.map(s=>`
-      <div class="stat-card">
-        <div class="stat-card-top">
-          <div class="stat-icon" style="background:${s.color}">
-            <svg viewBox="0 0 24 24" stroke="${s.stroke}" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${s.icon}"/></svg>
-          </div>
-          <span class="stat-trend trend-neutral">${s.trend}</span>
-        </div>
-        <div><div class="stat-value">${s.value}</div><div class="stat-label">${s.label}</div></div>
-      </div>
-    `).join('');
-
-    // Re-map top programs untuk ranking
-    const rankData = data.topPrograms.map((p, i) => ({
-      name: p.name.replace(/_/g, ' ').toUpperCase(),
-      sub: `Total Entri: ${p.entryCount}`,
-      pct: parseFloat(p.avgParticipation)
-    }));
-    document.getElementById('rank-list').innerHTML = rankData.map((r,i)=>`
-      <div class="rank-item">
-        <div class="rank-num" style="background:${['#fef3c7','#f1f5f9','#fef3c7','#d1fae5','#dbeafe'][i]};color:${['#f59e0b','#9ca3af','#cd7f32','#10b981','#3b82f6'][i]}">${i+1}</div>
-        <div class="rank-info">
-          <div class="rank-name">${r.name}</div>
-          <div class="rank-sub">${r.sub}</div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:${r.pct}%"></div></div>
-        </div>
-        <div class="rank-pct">${r.pct}%</div>
-      </div>
-    `).join('');
-
-  } catch(e) {
-    console.error('Failed to load dashboard analytics');
-  }
-
-  // Render dummy charts for now while integrating
-  renderTrendChart();
-  renderDonut();
-  renderActivity();
-  renderHeatmap();
-}
-
-const STAT_DATA=[
-  {label:'Total Siswa Aktif',value:452,trend:'+12%',up:true,icon:'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z',color:'#d1fae5',stroke:'#059669'},
-  {label:'Total Program',value:13,trend:'Aktif',up:null,icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25',color:'#dbeafe',stroke:'#2563eb'},
-  {label:'Rata-rata Partisipasi',value:'87%',trend:'+3%',up:true,icon:'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941',color:'#fef3c7',stroke:'#d97706'},
-  {label:'Laporan Terinput',value:124,trend:'Bulan ini',up:null,icon:'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z',color:'#ede9fe',stroke:'#7c3aed'},
-];
-
-function renderStats(){
-  const grid=document.getElementById('stats-grid');
-  grid.innerHTML=STAT_DATA.map(s=>`
-    <div class="stat-card">
-      <div class="stat-card-top">
-        <div class="stat-icon" style="background:${s.color}">
-          <svg viewBox="0 0 24 24" stroke="${s.stroke}" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${s.icon}"/></svg>
-        </div>
-        ${s.up===true?`<span class="stat-trend trend-up"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"/></svg>${s.trend}</span>`
-          :s.up===false?`<span class="stat-trend trend-down">${s.trend}</span>`
-          :`<span class="stat-trend trend-neutral">${s.trend}</span>`}
-      </div>
-      <div>
-        <div class="stat-value">${s.value}</div>
-        <div class="stat-label">${s.label}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-const TREND_DATA={
-  all:{
-    categories:['Jan','Feb','Mar','Apr','Mei','Jun'],
-    series:[
-      {name:'Shalat Dhuha',data:[88,91,85,93,87,94]},
-      {name:'Tahfidz',data:[72,75,78,80,83,86]},
-      {name:'Pramuka',data:[60,65,70,68,73,78]},
-    ]
+    btn.textContent='Memverifikasi Database...'; btn.disabled=true;
+    
+    // Login REALTIME dari Spreadsheet (bukan mock data)
+    const res = await Api.post('login', { username: u, password: p });
+    
+    if(res.success) {
+      sessionStorage.setItem('auth_session', JSON.stringify(res.data.user));
+      this.user = res.data.user;
+      document.getElementById('login-screen').style.display='none';
+      App.init();
+    } else {
+      btn.textContent='Masuk ke Dashboard'; btn.disabled=false;
+      Utils.toast(res.error?.message || 'Gagal login', 'error');
+    }
   },
-  ibadah:{
-    categories:['Jan','Feb','Mar','Apr','Mei','Jun'],
-    series:[
-      {name:'Shalat Dhuha',data:[88,91,85,93,87,94]},
-      {name:'Tadarus',data:[80,83,82,88,85,90]},
-      {name:'Tahfidz',data:[72,75,78,80,83,86]},
-    ]
+
+  logout() {
+    Swal.fire({
+      title:'Logout?', text:'Sesi akan diakhiri.', icon:'warning', showCancelButton:true,
+      confirmButtonColor:'#dc2626', cancelButtonColor:'#6b7280', confirmButtonText:'Ya, Logout'
+    }).then(r => { 
+      if(r.isConfirmed){ sessionStorage.removeItem('auth_session'); location.reload(); } 
+    });
   },
-  ekstra:{
-    categories:['Jan','Feb','Mar','Apr','Mei','Jun'],
-    series:[
-      {name:'Pramuka',data:[60,65,70,68,73,78]},
-      {name:'Drumband',data:[55,58,62,65,70,72]},
-      {name:'Pencak Silat',data:[48,52,58,61,64,68]},
-    ]
+
+  togglePwd() {
+    const inp = document.getElementById('inp-pass');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  },
+  
+  checkSession() {
+    const sess = sessionStorage.getItem('auth_session');
+    if(sess) {
+      this.user = JSON.parse(sess);
+      document.getElementById('login-screen').style.display='none';
+      return true;
+    }
+    return false;
   }
 };
 
-function renderTrendChart(type='all'){
-  if(S.charts.trend){S.charts.trend.destroy();}
-  const d=TREND_DATA[type]||TREND_DATA.all;
-  S.charts.trend=new ApexCharts(document.getElementById('trend-chart'),{
-    series:d.series,
-    chart:{type:'area',height:260,toolbar:{show:false},animations:{speed:600},fontFamily:'Instrument Sans, sans-serif'},
-    colors:['#10b981','#3b82f6','#f59e0b'],
-    dataLabels:{enabled:false},
-    stroke:{curve:'smooth',width:2.5},
-    fill:{type:'gradient',gradient:{shadeIntensity:1,opacityFrom:.2,opacityTo:.01,stops:[0,90,100]}},
-    xaxis:{categories:d.categories,axisBorder:{show:false},axisTicks:{show:false},labels:{style:{fontSize:'12px',colors:'#8aab9b'}}},
-    yaxis:{labels:{style:{fontSize:'11px',colors:'#8aab9b'}}},
-    grid:{borderColor:'#e3ebe7',strokeDashArray:4},
-    legend:{position:'top',horizontalAlign:'right',fontSize:'12px'},
-    tooltip:{shared:true,intersect:false,theme:'light'}
-  });
-  S.charts.trend.render();
-}
-function updateTrendChart(v){renderTrendChart(v);}
+// --- 4. DASHBOARD SERVICE ---
+const Dashboard = {
+  data: null, charts: {},
 
-function renderDonut(){
-  if(S.charts.donut)S.charts.donut.destroy();
-  S.charts.donut=new ApexCharts(document.getElementById('donut-chart'),{
-    series:[45,35,20],
-    chart:{type:'donut',height:260,fontFamily:'Instrument Sans, sans-serif',animations:{speed:600}},
-    labels:['Program Ibadah','Ekstrakurikuler','Program Umum'],
-    colors:['#10b981','#3b82f6','#f59e0b'],
-    plotOptions:{pie:{donut:{size:'68%',labels:{show:true,total:{show:true,label:'Total',fontSize:'12px',color:'#8aab9b',formatter:()=>'13 Program'}}}}},
-    dataLabels:{enabled:false},
-    legend:{position:'bottom',fontSize:'12px'},
-    tooltip:{theme:'light'}
-  });
-  S.charts.donut.render();
-}
-
-const RANKINGS=[
-  {name:'Shalat Dhuha',sub:'Program Ibadah',pct:94},
-  {name:'Tadarus Al-Quran',sub:'Program Ibadah',pct:90},
-  {name:"Do'a Harian",sub:'Program Ibadah',pct:88},
-  {name:'Tahfidz',sub:'Program Ibadah',pct:83},
-  {name:'Pramuka',sub:'Ekstrakurikuler',pct:78},
-];
-const RANK_COLORS=['#f59e0b','#9ca3af','#cd7f32','#10b981','#3b82f6'];
-const RANK_BG=['#fef3c7','#f1f5f9','#fef3c7','#d1fae5','#dbeafe'];
-
-function renderRanking(){
-  document.getElementById('rank-list').innerHTML=RANKINGS.map((r,i)=>`
-    <div class="rank-item">
-      <div class="rank-num" style="background:${RANK_BG[i]};color:${RANK_COLORS[i]}">${i+1}</div>
-      <div class="rank-info">
-        <div class="rank-name">${r.name}</div>
-        <div class="rank-sub">${r.sub}</div>
-        <div class="rank-bar"><div class="rank-bar-fill" style="width:${r.pct}%"></div></div>
-      </div>
-      <div class="rank-pct">${r.pct}%</div>
-    </div>
-  `).join('');
-}
-
-const ACTIVITIES=[
-  {msg:'<b>Ust. Ahmad</b> menginput data Shalat Dhuha Kelas 4',time:'5 menit lalu',color:'#10b981'},
-  {msg:'<b>Bu Siti</b> memperbarui rekap Pramuka bulan Mei',time:'32 menit lalu',color:'#3b82f6'},
-  {msg:'<b>Admin</b> menghapus entri duplikat Tahfidz Kelas 2',time:'1 jam lalu',color:'#f59e0b'},
-  {msg:'<b>Ustzh. Aisyah</b> menambahkan data Tadarus Kelas 5',time:'2 jam lalu',color:'#8b5cf6'},
-  {msg:'<b>Pak Budi</b> mengekspor laporan Drumband ke CSV',time:'3 jam lalu',color:'#06b6d4'},
-];
-function renderActivity(){
-  document.getElementById('activity-list').innerHTML=ACTIVITIES.map((a,i)=>`
-    <div class="activity-item">
-      <div class="act-dot-wrap">
-        <div class="act-dot" style="background:${a.color}"></div>
-        ${i<ACTIVITIES.length-1?'<div class="act-line"></div>':''}
-      </div>
-      <div class="act-content">
-        <div class="act-msg">${a.msg}</div>
-        <div class="act-time">${a.time}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderHeatmap(){
-  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
-  const colors=['#d1fae5','#6ee7b7','#10b981','#065f46'];
-  document.getElementById('hm-labels').innerHTML=months.map(m=>`<div class="hm-label">${m}</div>`).join('');
-  const programs=['shalat_dhuha','doa_harian','asmaul_husna','tadarus','shalat_dzuhur','tahfidz','tik','pramuka','drumband','pencak_silat','kesehatan','bhakti_sosial','pesantren_kilat'];
-  let html='';
-  programs.forEach(()=>{
-    months.forEach(()=>{
-      const v=Math.random();
-      const c=v>.75?colors[3]:v>.5?colors[2]:v>.25?colors[1]:colors[0];
-      const pct=Math.round(60+v*40);
-      html+=`<div class="hm-cell" style="background:${c}" title="${pct}% partisipasi"></div>`;
-    });
-  });
-  document.getElementById('heatmap').innerHTML=html;
-}
-
-// ─── PROGRAM DATA ────────────────────────────────────
-async function loadData(prog){
-  if (!prog) return; // Mencegah payload undefined
-  
-  S.page = 1;
-  S.program = prog; // Kunci State Program
-  
-  // 6. LOADING SYSTEM (Skeleton)
-  const tbody = document.getElementById('table-body');
-  const empty = document.getElementById('empty-state');
-  empty.style.display = 'none';
-  tbody.innerHTML = Array(5).fill('<tr><td colspan="8"><div class="skeleton" style="height:24px;width:100%"></div></td></tr>').join('');
-  document.getElementById('tbl-info').textContent = 'Memuat data...';
-
-  try {
-    const res = await API.get('get_data', { sheetName: prog });
-    S.data = res.data.data || [];
-    filterTable();
-  } catch (err) {
-    S.data = [];
-    filterTable();
-  }
-}
-
-function genMock(prog){
-  const cls=['Kelas 1','Kelas 2','Kelas 3','Kelas 4','Kelas 5','Kelas 6'];
-  const pb=['Ust. Ahmad','Ustzh. Aisyah','Pak Budi','Bu Siti','Ust. Hasan'];
-  return Array.from({length:30},(_,i)=>{
-    const ikut=10+Math.floor(Math.random()*30);
-    const tdk=Math.floor(Math.random()*6);
-    return {
-      id:`ID-${1000+i}`,
-      bulan:`2025-${String(Math.floor(Math.random()*12)+1).padStart(2,'0')}`,
-      kelas:cls[Math.floor(Math.random()*cls.length)],
-      ikut,tdk_ikut:tdk,
-      persentase:((ikut/(ikut+tdk))*100).toFixed(1),
-      pembina:pb[Math.floor(Math.random()*pb.length)],
-      tanggal_input:'2025-05-11'
-    };
-  }).sort((a,b)=>b.bulan.localeCompare(a.bulan));
-}
-
-function filterTable(){
-  const q=document.getElementById('tbl-search-input').value.toLowerCase();
-  const kelas=document.getElementById('filter-kelas').value;
-  S.filtered=S.data.filter(r=>{
-    const matchQ=r.bulan.includes(q)||r.kelas.toLowerCase().includes(q)||r.pembina.toLowerCase().includes(q);
-    const matchK=!kelas||r.kelas===kelas;
-    return matchQ&&matchK;
-  });
-  S.page=1;
-  renderTable();
-}
-
-function renderTable(){
-  S.limit=parseInt(document.getElementById('limit-select').value);
-  const tbody=document.getElementById('table-body');
-  const empty=document.getElementById('empty-state');
-  if(!S.filtered.length){tbody.innerHTML='';empty.style.display='flex';document.getElementById('tbl-info').textContent='0 data';document.getElementById('tbl-pages').innerHTML='';return;}
-  empty.style.display='none';
-  const start=(S.page-1)*S.limit;
-  const end=Math.min(start+S.limit,S.filtered.length);
-  const rows=S.filtered.slice(start,end);
-  tbody.innerHTML=rows.map((r,i)=>{
-    const pct=parseFloat(r.persentase);
-    const bc=pct>=85?'badge-green':pct>=60?'badge-yellow':'badge-red';
-    const barClr=pct>=85?'var(--emerald-500)':pct>=60?'#f59e0b':'#ef4444';
-    return `<tr>
-      <td style="color:var(--text-muted);font-size:12px">${start+i+1}</td>
-      <td style="font-weight:500">${fmtBulan(r.bulan)}</td>
-      <td><span class="badge badge-gray">${r.kelas}</span></td>
-      <td style="text-align:center;color:var(--emerald-700);font-weight:600">${r.ikut}</td>
-      <td style="text-align:center;color:#dc2626">${r.tdk_ikut}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="badge ${bc}">${r.persentase}%</span>
-          <div class="tbl-pct-bar"><div class="tbl-pct-fill" style="width:${pct}%;background:${barClr}"></div></div>
-        </div>
-      </td>
-      <td style="color:var(--text-secondary)">${r.pembina}</td>
-      <td style="text-align:center">
-        <div style="display:flex;gap:4px;justify-content:center">
-          <button class="action-btn edit" onclick='editRow(${JSON.stringify(r)})' title="Edit">
-            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/></svg>
-          </button>
-          <button class="action-btn delete" onclick="deleteRow('${r.id}')" title="Hapus">
-            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>
-          </button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-  document.getElementById('tbl-info').textContent=`Menampilkan ${start+1}–${end} dari ${S.filtered.length} data`;
-  renderPager();
-}
-
-function renderPager(){
-  const total=Math.ceil(S.filtered.length/S.limit);
-  const el=document.getElementById('tbl-pages');
-  let h='';
-  h+=`<button class="page-btn" onclick="changePage(S.page-1)" ${S.page<=1?'disabled':''}>
-    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
-  </button>`;
-  const show=[];
-  for(let i=1;i<=total;i++){
-    if(i===1||i===total||Math.abs(i-S.page)<=1)show.push(i);
-    else if(show[show.length-1]!=='...'){show.push('...');}
-  }
-  show.forEach(p=>{
-    if(p==='...')h+=`<div class="page-btn" style="cursor:default">…</div>`;
-    else h+=`<button class="page-btn ${p===S.page?'active':''}" onclick="changePage(${p})">${p}</button>`;
-  });
-  h+=`<button class="page-btn" onclick="changePage(S.page+1)" ${S.page>=total?'disabled':''}>
-    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-  </button>`;
-  el.innerHTML=h;
-}
-
-function changePage(p){
-  const total=Math.ceil(S.filtered.length/S.limit);
-  S.page=Math.max(1,Math.min(p,total));
-  renderTable();
-}
-
-function fmtBulan(ym){
-  if(!ym)return'-';
-  const [y,m]=ym.split('-');
-  const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-  return `${months[parseInt(m)-1]} ${y}`;
-}
-
-// ─── MODAL ───────────────────────────────────────────
-function openModal(){
-  document.getElementById('data-form').reset();
-  document.getElementById('f-id').value='';
-  document.getElementById('modal-title').textContent='Tambah Data Baru';
-  document.getElementById('f-pct').value='0%';
-  document.getElementById('pct-bar').style.width='0%';
-  document.getElementById('modal-overlay').classList.add('open');
-}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
-document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
-
-function calcPct(){
-  const ikut=parseInt(document.getElementById('f-ikut').value)||0;
-  const tdk=parseInt(document.getElementById('f-tdk').value)||0;
-  const total=ikut+tdk;
-  const pct=total>0?((ikut/total)*100).toFixed(1):0;
-  document.getElementById('f-pct').value=pct+'%';
-  document.getElementById('pct-bar').style.width=pct+'%';
-}
-
-function editRow(r){
-  openModal();
-  document.getElementById('modal-title').textContent='Edit Data';
-  document.getElementById('f-id').value=r.id;
-  document.getElementById('f-bulan').value=r.bulan;
-  document.getElementById('f-kelas').value=r.kelas;
-  document.getElementById('f-ikut').value=r.ikut;
-  document.getElementById('f-tdk').value=r.tdk_ikut;
-  document.getElementById('f-pct').value=r.persentase+'%';
-  document.getElementById('pct-bar').style.width=r.persentase+'%';
-  document.getElementById('f-pembina').value=r.pembina;
-  document.getElementById('f-ket').value=r.keterangan||'';
-}
-
-async function submitForm(e){
-  e.preventDefault();
-  
-  if (!S.program) {
-    toast('Error: Program tidak terpilih!', 'error');
-    return;
-  }
-
-  const btn = document.getElementById('btn-save');
-  const orig = btn.innerHTML;
-  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .7s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Menyimpan...';
-  btn.disabled = true;
-  
-  const pctRaw = document.getElementById('f-pct').value.replace('%','');
-  const row = {
-    id: document.getElementById('f-id').value || 'ID-' + Date.now(),
-    bulan: document.getElementById('f-bulan').value,
-    kelas: document.getElementById('f-kelas').value,
-    ikut: parseInt(document.getElementById('f-ikut').value),
-    tdk_ikut: parseInt(document.getElementById('f-tdk').value),
-    persentase: parseFloat(pctRaw),
-    pembina: document.getElementById('f-pembina').value,
-    keterangan: document.getElementById('f-ket').value,
-    tanggal_input: new Date().toISOString().split('T')[0]
-  };
-  
-  const isEdit = !!document.getElementById('f-id').value;
-  
-  try {
-    const action = isEdit ? 'update_data' : 'add_data';
+  async init() {
+    document.getElementById('dash-loader').classList.add('show');
+    document.getElementById('stats-grid').innerHTML = Array(4).fill('<div class="stat-card skeleton" style="height:120px"></div>').join('');
     
-    // API Call
-    await API.post(action, { sheetName: S.program, data: row });
-    
-    closeModal();
-    toast(isEdit ? 'Data berhasil diperbarui' : 'Data berhasil ditambahkan', 'success');
-    
-    // Auto-refresh Realtime
-    loadData(S.program);
-  } catch (err) {
-    // Error notification handled by API service
-  } finally {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-  }
-}
+    const res = await Api.get('get_dashboard');
+    document.getElementById('dash-loader').classList.remove('show');
 
-function deleteRow(id){
-  Swal.fire({title:'Hapus data ini?',text:'Data tidak dapat dikembalikan setelah dihapus.',icon:'warning',
-    showCancelButton:true,confirmButtonColor:'#dc2626',cancelButtonColor:'#6b7280',
-    confirmButtonText:'Ya, Hapus',cancelButtonText:'Batal'
-  }).then(async r=>{
-    if(r.isConfirmed){
-      try {
-        await API.get('delete_data', { sheetName: S.program, id: id });
-        toast('Data berhasil dihapus', 'success');
-        loadData(S.program); // Refresh Data
-      } catch (e) {
-        // Error Handled by API
-      }
+    if(res.success) {
+      this.data = res.data;
+      this.renderStats();
+      this.renderTrendChart();
+      this.renderDonut();
+      this.renderRanking();
+      this.renderActivity();
+      this.renderHeatmap();
+    } else {
+      Utils.toast(res.error?.message || 'Gagal memuat dashboard', 'error');
     }
-  });
-}
+  },
 
-// ─── EXPORT ──────────────────────────────────────────
-function exportCSV(){
-  if(!S.filtered.length){toast('Tidak ada data untuk diexport','error');return;}
-  let csv='id,bulan,kelas,ikut,tdk_ikut,persentase,pembina,tanggal_input\n';
-  S.filtered.forEach(r=>{csv+=`${r.id},${r.bulan},${r.kelas},${r.ikut},${r.tdk_ikut},${r.persentase},"${r.pembina}",${r.tanggal_input}\n`;});
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURI(csv);
-  a.download=`Data_${S.program}_${Date.now()}.csv`;
-  a.click();
-  toast('File CSV berhasil diunduh','success');
-}
+  renderStats() {
+    const cards = [
+      {label:'Total Entri Data',val:this.data.totalEntries, icon:'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z',c:'#d1fae5',s:'#059669'},
+      {label:'Program Aktif',val:this.data.programCount, icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25',c:'#dbeafe',s:'#2563eb'},
+      {label:'Rata-rata Partisipasi',val:`${this.data.avgParticipation}%`, icon:'M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941',c:'#fef3c7',s:'#d97706'},
+      {label:'Status Live',val:'Terhubung', icon:'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z',c:'#ede9fe',s:'#7c3aed'}
+    ];
+    document.getElementById('stats-grid').innerHTML = cards.map(s => `<div class="stat-card"><div class="stat-card-top"><div class="stat-icon" style="background:${s.c}"><svg viewBox="0 0 24 24" stroke="${s.s}" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${s.icon}"/></svg></div></div><div><div class="stat-value">${s.val}</div><div class="stat-label">${s.label}</div></div></div>`).join('');
+  },
 
-// ─── TOAST ───────────────────────────────────────────
-function toast(msg,type='success'){
-  const c=document.getElementById('toast-container');
-  const t=document.createElement('div');
-  t.className=`toast toast-${type}`;
-  const icon=type==='success'
-    ?'<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>'
-    :'<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>';
-  t.innerHTML=`<div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="13" height="13"><path d="${icon}"/></svg></div><span>${msg}</span>`;
-  c.appendChild(t);
-  setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),300);},3000);
-}
+  renderTrendChart() {
+    if(!this.data) return;
+    const filter = document.getElementById('trend-filter').value || 'all';
+    const raw = this.data.trendData[filter];
+    const months = Object.keys(raw).sort();
+    const categories = months.map(m => isNaN(new Date(m+'-01'))?m:new Date(m+'-01').toLocaleDateString('id-ID',{month:'short'}));
+    const seriesData = months.map(m => raw[m].count > 0 ? parseFloat((raw[m].sum / raw[m].count).toFixed(1)) : 0);
+    const series = [{ name: 'Partisipasi %', data: seriesData }];
 
-// ─── SPIN KEYFRAME ────────────────────────────────────
-const ks=document.createElement('style');
-ks.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
-document.head.appendChild(ks);
+    if(this.charts.trend) {
+      this.charts.trend.updateOptions({ xaxis: { categories } });
+      this.charts.trend.updateSeries(series); return;
+    }
+    this.charts.trend = new ApexCharts(document.getElementById('trend-chart'), {
+      series, chart: { type:'area', height:260, toolbar:{show:false}, fontFamily:'Instrument Sans, sans-serif' }, colors: ['#10b981'], dataLabels: { enabled: false }, stroke: { curve:'smooth', width:2.5 },
+      fill: { type:'gradient', gradient:{shadeIntensity:1, opacityFrom:.2, opacityTo:.01, stops:[0,90,100]} },
+      xaxis: { categories, axisBorder:{show:false}, axisTicks:{show:false}, labels:{style:{colors:'#8aab9b'}} },
+      yaxis: { max: 100, labels:{style:{colors:'#8aab9b'}} }, grid: { borderColor:'#e3ebe7', strokeDashArray:4 }, tooltip: { theme:'light' }
+    });
+    this.charts.trend.render();
+  },
+
+  renderDonut() {
+    const series = [this.data.categoryStats.ibadah, this.data.categoryStats.ekstra, this.data.categoryStats.umum];
+    if(this.charts.donut) { this.charts.donut.updateSeries(series); return; }
+    this.charts.donut = new ApexCharts(document.getElementById('donut-chart'), {
+      series, chart: { type:'donut', height:260, fontFamily:'Instrument Sans, sans-serif' },
+      labels: ['Program Ibadah','Ekstra','Umum'], colors: ['#10b981','#3b82f6','#f59e0b'],
+      plotOptions: { pie: { donut: { size:'68%', labels:{show:true, total:{show:true, label:'Total Entri', color:'#8aab9b', formatter:(w)=> w.globals.seriesTotals.reduce((a,b)=>a+b,0)}}}}},
+      dataLabels: { enabled: false }, legend: { position:'bottom', fontSize:'12px' }, tooltip: { theme:'light' }
+    });
+    this.charts.donut.render();
+  },
+
+  renderRanking() {
+    const bg=['#fef3c7','#f1f5f9','#fef3c7','#d1fae5','#dbeafe'], col=['#f59e0b','#9ca3af','#cd7f32','#10b981','#3b82f6'];
+    if(!this.data.topPrograms || !this.data.topPrograms.length) return document.getElementById('rank-list').innerHTML = '<p class="text-muted text-xs">Belum ada data</p>';
+    document.getElementById('rank-list').innerHTML = this.data.topPrograms.map((r,i) => `
+      <div class="rank-item"><div class="rank-num" style="background:${bg[i]};color:${col[i]}">${i+1}</div><div class="rank-info"><div class="rank-name">${r.name.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</div><div class="rank-sub">${r.category}</div><div class="rank-bar"><div class="rank-bar-fill" style="width:${r.avgParticipation}%"></div></div></div><div class="rank-pct">${r.avgParticipation}%</div></div>
+    `).join('');
+  },
+
+  renderActivity() {
+    if(!this.data.recentLogs || !this.data.recentLogs.length) return document.getElementById('activity-list').innerHTML = '<p class="text-muted text-xs">Tidak ada aktivitas</p>';
+    document.getElementById('activity-list').innerHTML = this.data.recentLogs.map((a,i) => {
+      const c=a.action==='ADD'?'#10b981':(a.action==='UPDATE'?'#3b82f6':'#ef4444'), t=a.action==='ADD'?'menambahkan':(a.action==='UPDATE'?'memperbarui':'menghapus');
+      const d = isNaN(new Date(a.time)) ? a.time : new Date(a.time).toLocaleString('id-ID',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return `<div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:${c}"></div>${i<this.data.recentLogs.length-1?'<div class="act-line"></div>':''}</div><div class="act-content"><div class="act-msg"><b>${a.by}</b> ${t} data <i>${a.sheet.replace(/_/g,' ')}</i></div><div class="act-time">${d}</div></div></div>`;
+    }).join('');
+  },
+
+  renderHeatmap() {
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+    document.getElementById('hm-labels').innerHTML = months.map(m=>`<div class="hm-label">${m}</div>`).join('');
+    let html='';
+    App.MENUS.filter(m=>m.id&&m.id!=='dashboard').forEach(prog => {
+      const raw = this.data.heatmap[prog.id] || {};
+      months.forEach((_, idx) => {
+        const k = `2025-${String(idx+1).padStart(2,'0')}`; 
+        const pct = raw[k]&&raw[k].count>0 ? raw[k].sum/raw[k].count : 0;
+        const c = pct>85?'#065f46':(pct>60?'#10b981':(pct>1?'#6ee7b7':'#d1fae5'));
+        html += `<div class="hm-cell" style="background:${c}" title="${prog.label}: ${pct.toFixed(1)}%"></div>`;
+      });
+    });
+    document.getElementById('heatmap').innerHTML=html;
+  }
+};
+
+// --- 5. TABLE / PROGRAM SERVICE ---
+const Table = {
+  data: [], filtered: [], page: 1, limit: 10, sheet: null,
+
+  async load(sheetName) {
+    this.sheet = sheetName; this.page = 1;
+    document.getElementById('table-loader').classList.add('show');
+    const res = await Api.get('get_data', { sheetName });
+    document.getElementById('table-loader').classList.remove('show');
+    
+    if(res.success) { this.data = res.data.data || []; this.filterData(); } 
+    else { Utils.toast(res.error?.message, 'error'); this.data=[]; this.filterData(); }
+  },
+
+  filterData() {
+    const q = document.getElementById('tbl-search-input').value.toLowerCase();
+    const k = document.getElementById('filter-kelas').value;
+    this.filtered = this.data.filter(r => ((r.bulan||'').includes(q) || (r.kelas||'').toLowerCase().includes(q) || (r.pembina||'').toLowerCase().includes(q)) && (!k || r.kelas===k));
+    this.page = 1; this.render();
+  },
+
+  render() {
+    this.limit = parseInt(document.getElementById('limit-select').value);
+    const tbody = document.getElementById('table-body'), empty = document.getElementById('empty-state');
+    if(!this.filtered.length) { tbody.innerHTML=''; empty.style.display='flex'; document.getElementById('tbl-info').textContent='0 data'; document.getElementById('tbl-pages').innerHTML=''; return; }
+    
+    empty.style.display='none';
+    const start = (this.page-1) * this.limit, end = Math.min(start+this.limit, this.filtered.length);
+    const rows = this.filtered.slice(start, end);
+    
+    tbody.innerHTML = rows.map((r,i) => {
+      const pct = parseFloat(r.persentase)||0, bc = pct>=85?'badge-green':(pct>=60?'badge-yellow':'badge-red'), bC = pct>=85?'#10b981':(pct>=60?'#f59e0b':'#ef4444');
+      return `<tr><td style="color:var(--text-muted);font-size:12px">${start+i+1}</td><td style="font-weight:500">${Utils.fmtBulan(r.bulan)}</td><td><span class="badge badge-gray">${r.kelas||'-'}</span></td><td style="text-align:center;color:var(--emerald-700);font-weight:600">${r.ikut}</td><td style="text-align:center;color:#dc2626">${r.tdk_ikut}</td><td><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc}">${pct}%</span><div class="tbl-pct-bar"><div class="tbl-pct-fill" style="width:${pct}%;background:${bC}"></div></div></div></td><td style="color:var(--text-secondary)">${r.pembina||'-'}</td><td style="text-align:center"><div style="display:flex;gap:4px;justify-content:center"><button class="action-btn edit" onclick='Table.editRow(${JSON.stringify(r)})'><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/></svg></button><button class="action-btn delete" onclick="Table.deleteRow('${r.id}')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg></button></div></td></tr>`;
+    }).join('');
+    
+    document.getElementById('tbl-info').textContent = `Menampilkan ${start+1}–${end} dari ${this.filtered.length} data`;
+    this.renderPager();
+  },
+
+  renderPager() {
+    const t = Math.ceil(this.filtered.length/this.limit), el = document.getElementById('tbl-pages');
+    let h = `<button class="page-btn" onclick="Table.changePage(${this.page-1})" ${this.page<=1?'disabled':''}><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>`;
+    const s = []; for(let i=1;i<=t;i++){ if(i===1||i===t||Math.abs(i-this.page)<=1)s.push(i); else if(s[s.length-1]!=='...')s.push('...'); }
+    s.forEach(p => { h+=p==='...'?`<div class="page-btn" style="cursor:default">…</div>`:`<button class="page-btn ${p===this.page?'active':''}" onclick="Table.changePage(${p})">${p}</button>`; });
+    h += `<button class="page-btn" onclick="Table.changePage(${this.page+1})" ${this.page>=t?'disabled':''}><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>`;
+    el.innerHTML=h;
+  },
+  changePage(p) { this.page = Math.max(1, Math.min(p, Math.ceil(this.filtered.length/this.limit))); this.render(); },
+
+  openModal() { document.getElementById('data-form').reset(); document.getElementById('f-id').value=''; document.getElementById('modal-title').textContent='Tambah Data Baru'; document.getElementById('f-pct').value='0%'; document.getElementById('pct-bar').style.width='0%'; document.getElementById('modal-overlay').classList.add('open'); },
+  closeModal() { document.getElementById('modal-overlay').classList.remove('open'); },
+  calcPct() { const i=parseInt(document.getElementById('f-ikut').value)||0, t=parseInt(document.getElementById('f-tdk').value)||0, pct=(i+t)>0?((i/(i+t))*100).toFixed(1):0; document.getElementById('f-pct').value=pct+'%'; document.getElementById('pct-bar').style.width=pct+'%'; },
+  
+  editRow(r) {
+    this.openModal(); document.getElementById('modal-title').textContent='Edit Data';
+    document.getElementById('f-id').value=r.id; document.getElementById('f-bulan').value=r.bulan; document.getElementById('f-kelas').value=r.kelas;
+    document.getElementById('f-ikut').value=r.ikut; document.getElementById('f-tdk').value=r.tdk_ikut;
+    document.getElementById('f-pct').value=r.persentase+'%'; document.getElementById('pct-bar').style.width=r.persentase+'%';
+    document.getElementById('f-pembina').value=r.pembina; document.getElementById('f-ket').value=r.keterangan||'';
+  },
+
+  async submitForm(e) {
+    e.preventDefault(); const btn = document.getElementById('btn-save'), orig = btn.innerHTML;
+    btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:white;margin-right:6px"></div> Menyimpan...'; btn.disabled = true;
+
+    const row = {
+      id: document.getElementById('f-id').value || `ID-${Date.now()}`, bulan: document.getElementById('f-bulan').value, kelas: document.getElementById('f-kelas').value,
+      ikut: parseInt(document.getElementById('f-ikut').value), tdk_ikut: parseInt(document.getElementById('f-tdk').value), persentase: parseFloat(document.getElementById('f-pct').value.replace('%','')),
+      pembina: document.getElementById('f-pembina').value, keterangan: document.getElementById('f-ket').value
+    };
+
+    const res = await Api.post(row.id.startsWith('ID-')&&!document.getElementById('f-id').value ? 'add_data' : 'update_data', { sheetName: this.sheet, data: row, user: Auth.user?.username });
+    btn.innerHTML = orig; btn.disabled = false;
+
+    if(res.success) { Utils.toast('Data berhasil disimpan'); this.closeModal(); this.load(this.sheet); }
+    else Utils.toast(res.error?.message||'Gagal menyimpan', 'error');
+  },
+
+  deleteRow(id) {
+    Swal.fire({ title:'Hapus data?', text:'Dihapus permanen dari Spreadsheet.', icon:'warning', showCancelButton:true, confirmButtonColor:'#dc2626', confirmButtonText:'Ya, Hapus' })
+    .then(async r => {
+      if(r.isConfirmed) {
+        document.getElementById('table-loader').classList.add('show');
+        const res = await Api.post('delete_data', { sheetName: this.sheet, id });
+        if(res.success) { Utils.toast('Data dihapus'); this.load(this.sheet); } else { document.getElementById('table-loader').classList.remove('show'); Utils.toast(res.error?.message, 'error'); }
+      }
+    });
+  },
+
+  exportCSV() {
+    if(!this.filtered.length) return Utils.toast('Tidak ada data','error');
+    let csv='id,bulan,kelas,ikut,tdk_ikut,persentase,pembina,keterangan,tanggal_input\n';
+    this.filtered.forEach(r => csv+=`${r.id},${r.bulan},${r.kelas},${r.ikut},${r.tdk_ikut},${r.persentase},"${r.pembina}","${r.keterangan}",${r.tanggal_input}\n`);
+    const a = document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURI(csv); a.download=`Export_${this.sheet}_${Date.now()}.csv`; a.click();
+  }
+};
+
+// --- 6. APP CONTROLLER ---
+const App = {
+  MENUS: [
+    {id:'dashboard',label:'Dashboard',icon:'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'},
+    {section:'Program Ibadah'},
+    {id:'shalat_dhuha',label:'Shalat Dhuha',icon:'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z'},
+    {id:'doa_harian',label:"Do'a Harian",icon:'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25'},
+    {id:'asmaul_husna',label:'Asmaul Husna',icon:'M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z'},
+    {id:'tadarus',label:"Tadarus Al-Qur'an",icon:'M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z'},
+    {id:'shalat_dzuhur',label:'Shalat Dzuhur',icon:'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'},
+    {id:'tahfidz',label:'Tahfidz',icon:'M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0'},
+    {section:'Ekstrakurikuler'},
+    {id:'tik',label:'Program TIK',icon:'M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25'},
+    {id:'pramuka',label:'Pramuka',icon:'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z'},
+    {id:'drumband',label:'Drumband',icon:'M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z'},
+    {id:'pencak_silat',label:'Pencak Silat',icon:'M10.05 4.575a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM5.273 8.073a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Zm9.454 0a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM4.5 20.25a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Zm14.25 0a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0ZM12 20.25a1.575 1.575 0 1 0 3.15 0 1.575 1.575 0 0 0-3.15 0Z'}
+  ],
+  view: 'dashboard', sidebarCollapsed: false,
+
+  start() {
+    this.buildSidebar();
+    this.startClock();
+    if(Auth.checkSession()) this.init(); else Auth.checkHealth();
+    this.checkMobile(); window.addEventListener('resize', ()=>this.checkMobile());
+  },
+
+  init() {
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('user-name').textContent = Auth.user.name;
+    document.getElementById('user-role').textContent = Auth.user.role;
+    document.getElementById('user-avatar-text').textContent = Auth.user.username.substring(0,2);
+    this.navigate('dashboard');
+  },
+
+  buildSidebar() {
+    document.getElementById('sidebar-nav').innerHTML = this.MENUS.map(m => m.section ? `<div class="sidebar-section-label">${m.section}</div>` : `<button class="sidebar-item" id="menu-${m.id}" onclick="App.navigate('${m.id}','${m.label}')"><span class="s-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="${m.icon}"/></svg></span><span class="s-label">${m.label}</span></button>`).join('');
+  },
+
+  navigate(id, label) {
+    label = label || (this.MENUS.find(m=>m.id===id)?.label || 'Dashboard');
+    this.view = id; document.getElementById('bc-current').textContent = label;
+    document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+    const m = document.getElementById('menu-'+id); if(m) m.classList.add('active');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    
+    if(id === 'dashboard') {
+      document.getElementById('view-dashboard').classList.add('active'); Dashboard.init();
+    } else {
+      document.getElementById('view-program').classList.add('active');
+      document.getElementById('prog-title').textContent = label;
+      document.getElementById('prog-sub').textContent = 'Kelola data partisipasi — '+label;
+      Table.load(id);
+    }
+    if(window.innerWidth < 768) this.closeMobileSidebar();
+  },
+
+  refreshCurrentView() {
+    if(this.view === 'dashboard') Dashboard.init(); else Table.load(this.view);
+  },
+
+  startClock() {
+    const tick = () => {
+      const now = new Date(), h = String(now.getHours()).padStart(2,'0'), min = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('topbar-clock').textContent=`${now.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'})} · ${h}:${min}`;
+    }; tick(); setInterval(tick,30000);
+  },
+
+  checkMobile() { document.getElementById('mobile-menu-btn').style.display = window.innerWidth<768?'flex':'none'; },
+  toggleSidebar() { this.sidebarCollapsed = !this.sidebarCollapsed; document.getElementById('sidebar').classList.toggle('collapsed',this.sidebarCollapsed); },
+  openMobileSidebar() { document.getElementById('sidebar').classList.add('mobile-open'); document.getElementById('sidebar-overlay').classList.add('show'); },
+  closeMobileSidebar() { document.getElementById('sidebar').classList.remove('mobile-open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.start());
+document.getElementById('modal-overlay').addEventListener('click', function(e){ if(e.target===this) Table.closeModal(); });
 </script>
 </body>
 </html>
