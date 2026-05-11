@@ -392,7 +392,7 @@ a{text-decoration:none;color:inherit}
 }
 .card-pad{padding:20px}
 .card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
-.card-title{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--c-text-primary)}
+.card-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--c-text-primary)}
 .card-sub{font-size:12px;color:var(--c-text-muted);margin-top:2px}
 
 /* ═══════════════════════════════
@@ -446,7 +446,7 @@ a{text-decoration:none;color:inherit}
 .rank-name{font-size:13px;font-weight:600;color:var(--c-text-primary);text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rank-cat{font-size:11px;color:var(--c-text-muted);margin-top:1px}
 .rank-bar{height:3px;background:var(--c-border);border-radius:99px;margin-top:5px;overflow:hidden}
-.rank-fill{height:100%;background:linear-gradient(90deg,var(--c-accent),var(--c-accent-darker));border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1)}
+.rank-fill{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1)}
 .rank-pct{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--c-accent-deep);flex-shrink:0}
 
 /* ═══════════════════════════════
@@ -521,14 +521,19 @@ a{text-decoration:none;color:inherit}
 .tbl-search-wrap svg{width:13px;height:13px;stroke:var(--c-text-muted);fill:none;stroke-width:2;flex-shrink:0}
 .tbl-search-wrap input{border:none;background:none;font-size:13px;color:var(--c-text-primary);width:100%;padding:7px 0}
 .tbl-search-wrap input::placeholder{color:var(--c-text-muted)}
+
+/* Perbaikan Select agar lebih elegan & premium */
 .tbl-select{
   background:var(--c-bg);border:1px solid var(--c-border);
-  border-radius:8px;padding:7px 28px 7px 10px;
-  font-size:12.5px;color:var(--c-text-secondary);cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center;background-size:14px;
-  -webkit-appearance:none;
+  border-radius:8px;padding:7px 28px 7px 12px;
+  font-size:12.5px;font-weight:600;color:var(--c-text-primary);cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:14px;
+  -webkit-appearance:none; transition:var(--trans);
 }
+.tbl-select:hover{border-color:var(--c-accent-mid);background:var(--c-surface);}
+.tbl-select:focus{border-color:var(--c-accent);background:var(--c-surface);box-shadow:0 0 0 3px rgba(16,185,129,.1);}
+
 .tbl-spacer{flex:1}
 .btn{
   display:inline-flex;align-items:center;gap:6px;
@@ -880,7 +885,6 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
         <label class="ls-label">Username</label>
         <div class="ls-input-wrap">
           <svg class="ls-input-icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>
-          <!-- autofocus ditambahkan dan disabled dihilangkan -->
           <input id="inp-user" class="ls-input" type="text" placeholder="username" required autofocus>
         </div>
       </div>
@@ -888,17 +892,14 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
         <label class="ls-label">Password</label>
         <div class="ls-input-wrap">
           <svg class="ls-input-icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-          <!-- disabled dihilangkan -->
           <input id="inp-pass" class="ls-input" type="password" placeholder="••••••••" required>
           <button type="button" class="ls-eye" onclick="Auth.togglePwd()">
             <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
           </button>
         </div>
       </div>
-      <!-- Button aktif secara default dengan teks Masuk -->
       <button type="submit" class="ls-btn" id="ls-btn">
         <span id="ls-btn-txt">Masuk</span>
-        <!-- SVG Spinner tersembunyi untuk state loading -->
         <svg id="ls-btn-spinner" style="display:none; width:18px; height:18px; animation:spin 1s linear infinite;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
       </button>
     </form>
@@ -954,7 +955,6 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
       </div>
     </div>
     
-    <!-- Mobile Center Title -->
     <div class="tb-mobile-title" id="mobile-title">Dashboard</div>
 
     <div class="tb-actions">
@@ -1022,13 +1022,14 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
                 <div class="card-title">Tren Partisipasi</div>
                 <div class="card-sub">Rata-rata bulanan berdasarkan kategori</div>
               </div>
-              <select class="tbl-select" style="font-size:12px" id="trend-filter" onchange="Dash.renderTrend()">
-                <option value="all">Semua</option>
-                <option value="ibadah">Ibadah</option>
-                <option value="ekstra">Ekstra</option>
+              <select class="tbl-select" style="font-size:12px; font-weight:600; color:var(--c-text-primary);" id="trend-filter" onchange="Dash.renderTrend()">
+                <option value="all">Semua Kategori</option>
+                <option value="program_ibadah">Program Ibadah</option>
+                <option value="ekstrakurikuler">Ekstrakurikuler</option>
+                <option value="program_umum">Program Umum</option>
               </select>
             </div>
-            <div id="trend-chart" style="height:240px"></div>
+            <div id="trend-chart" style="height:250px"></div>
           </div>
           <div class="card card-pad" style="position:relative">
             <div class="card-head">
@@ -1037,7 +1038,7 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
                 <div class="card-sub">Proporsi entri data keseluruhan</div>
               </div>
             </div>
-            <div id="donut-chart" style="height:240px"></div>
+            <div id="donut-chart" style="height:260px"></div>
           </div>
         </div>
 
@@ -1216,6 +1217,15 @@ const CFG = {
   TOKEN:'MI_PANATASAN_SECRET_2025'
 };
 
+// ════════════════════════════════
+// GLOBAL CATEGORY MAP (CENTRALIZED)
+// ════════════════════════════════
+const CATEGORY_MAP = {
+  program_ibadah: 'Program Ibadah',
+  ekstrakurikuler: 'Ekstrakurikuler',
+  program_umum: 'Program Umum'
+};
+
 const Api = {
   async get(action,params={}){
     params.token=CFG.TOKEN;params.action=action;
@@ -1249,9 +1259,9 @@ const U = {
   getKategori(program){
     const ibadah=['shalat_dhuha','doa_harian','asmaul_husna','tadarus','shalat_dzuhur','tahfidz','pesantren_kilat'];
     const ekstra=['tik','pramuka','drumband','pencak_silat'];
-    if(ibadah.includes(program)) return 'Ibadah';
-    if(ekstra.includes(program)) return 'Ekstrakurikuler';
-    return 'Program Umum';
+    if(ibadah.includes(program)) return CATEGORY_MAP.program_ibadah;
+    if(ekstra.includes(program)) return CATEGORY_MAP.ekstrakurikuler;
+    return CATEGORY_MAP.program_umum;
   }
 };
 
@@ -1268,39 +1278,23 @@ const Auth = {
     const inpUser = document.getElementById('inp-user');
     const inpPass = document.getElementById('inp-pass');
 
-    // UI Loading State
-    btn.disabled = true;
-    btnTxt.textContent = 'Menghubungkan...';
-    btnSpinner.style.display = 'block';
-    inpUser.disabled = true;
-    inpPass.disabled = true;
+    btn.disabled = true; btnTxt.textContent = 'Menghubungkan...'; btnSpinner.style.display = 'block';
+    inpUser.disabled = true; inpPass.disabled = true;
 
-    // Lakukan API call (sekaligus check koneksi & auth)
-    const r = await Api.post('login', {
-      username: inpUser.value,
-      password: inpPass.value
-    });
+    const r = await Api.post('login', { username: inpUser.value, password: inpPass.value });
 
     if(r.success){
       this.user = r.data.user;
       sessionStorage.setItem('_sess', JSON.stringify(this.user));
-      
-      // Transisi Halus (Smooth Fade Out)
       document.getElementById('login-screen').style.opacity = '0';
       setTimeout(() => {
         document.getElementById('login-screen').style.display = 'none';
         App.init();
-      }, 400); // Tunggu animasi selesai
+      }, 400); 
     } else {
-      // Reset UI jika gagal / error jaringan
-      btn.disabled = false;
-      btnTxt.textContent = 'Masuk';
-      btnSpinner.style.display = 'none';
-      inpUser.disabled = false;
-      inpPass.disabled = false;
-      inpPass.value = ''; // Kosongkan password
-      inpUser.focus();
-      
+      btn.disabled = false; btnTxt.textContent = 'Masuk'; btnSpinner.style.display = 'none';
+      inpUser.disabled = false; inpPass.disabled = false;
+      inpPass.value = ''; inpUser.focus();
       U.toast(r.error?.message || 'Login gagal', 'error');
     }
   },
@@ -1348,37 +1342,104 @@ const Dash = {
   renderTrend(){
     if(!this.data)return;
     const f=document.getElementById('trend-filter').value||'all';
-    const raw=this.data.trendData[f]||{};
+    
+    // Mapping frontend filter selection to backend payload keys
+    const backendKeyMap = {
+      'all': 'all',
+      'program_ibadah': 'ibadah',
+      'ekstrakurikuler': 'ekstra',
+      'program_umum': 'umum'
+    };
+    const bKey = backendKeyMap[f] || f;
+    const raw = this.data.trendData[bKey] || this.data.trendData[f] || {};
+    
     const months=Object.keys(raw).sort();
     const cats=months.map(m=>{try{return new Date(m+'-01').toLocaleDateString('id-ID',{month:'short'})}catch{return m}});
-    const series=[{name:'Partisipasi %',data:months.map(m=>raw[m].count>0?parseFloat((raw[m].sum/raw[m].count).toFixed(1)):0)}];
-    if(this.charts.trend){this.charts.trend.updateOptions({xaxis:{categories:cats}});this.charts.trend.updateSeries(series);return}
-    this.charts.trend=new ApexCharts(document.getElementById('trend-chart'),{
-      series,chart:{type:'area',height:240,toolbar:{show:false},fontFamily:'Plus Jakarta Sans,sans-serif',animations:{enabled:true,speed:600}},
-      colors:['#10b981'],dataLabels:{enabled:false},
-      stroke:{curve:'smooth',width:2},
-      fill:{type:'gradient',gradient:{shadeIntensity:1,opacityFrom:.15,opacityTo:.01,stops:[0,90,100]}},
-      xaxis:{categories:cats,axisBorder:{show:false},axisTicks:{show:false},labels:{style:{colors:'#9ca3af',fontSize:'11px'}}},
-      yaxis:{max:100,min:0,labels:{style:{colors:'#9ca3af',fontSize:'11px'},formatter:v=>`${v}%`}},
-      grid:{borderColor:'#f0f2f4',strokeDashArray:3,padding:{left:4,right:4}},
-      tooltip:{theme:'light',style:{fontFamily:'Plus Jakarta Sans,sans-serif'},y:{formatter:v=>`${v}%`}},
-      markers:{size:3,colors:['#10b981'],strokeColors:'white',strokeWidth:2,hover:{size:5}}
+    const seriesData = months.map(m=>raw[m].count>0 ? parseFloat((raw[m].sum/raw[m].count).toFixed(1)) : 0);
+
+    // Color coordination based on filter
+    const colorMap = {
+      'all': '#10b981',             // Default Accent
+      'program_ibadah': '#10b981',  // Hijau
+      'ekstrakurikuler': '#3b82f6', // Biru
+      'program_umum': '#f59e0b'     // Orange
+    };
+    const themeColor = colorMap[f] || '#10b981';
+    const seriesName = f === 'all' ? 'Rata-rata Partisipasi' : CATEGORY_MAP[f];
+    const series = [{ name: seriesName, data: seriesData }];
+
+    if(this.charts.trend){
+      this.charts.trend.updateOptions({
+        xaxis: { categories: cats },
+        colors: [themeColor],
+        markers: { colors: [themeColor] }
+      });
+      this.charts.trend.updateSeries(series);
+      return;
+    }
+
+    this.charts.trend = new ApexCharts(document.getElementById('trend-chart'),{
+      series,
+      chart: { 
+        type: 'area', height: 250, toolbar: {show:false}, 
+        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        animations: { enabled: true, easing: 'easeinout', speed: 800 }
+      },
+      colors: [themeColor],
+      dataLabels: { enabled: false },
+      stroke: { curve: 'smooth', width: 3 },
+      fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.0, stops: [0, 90, 100] } },
+      xaxis: { 
+        categories: cats, axisBorder: {show:false}, axisTicks: {show:false}, 
+        labels: {style: {colors: '#9ca3af', fontSize: '12px', fontWeight: 500}},
+        crosshairs: { show: true }
+      },
+      yaxis: { 
+        max: 100, min: 0, 
+        labels: { style: {colors: '#9ca3af', fontSize: '11px', fontWeight: 500}, formatter: v => `${v}%` }
+      },
+      grid: { borderColor: '#f0f2f4', strokeDashArray: 4, padding: { top: 0, right: 0, bottom: 0, left: 10 } },
+      tooltip: { 
+        theme: 'light', style: {fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '13px'}, 
+        y: {formatter: v => `${v}%`}, marker: { show: true } 
+      },
+      markers: { size: 4, colors: [themeColor], strokeColors: '#ffffff', strokeWidth: 2, hover: { size: 6, sizeOffset: 3 } }
     });
     this.charts.trend.render();
   },
 
   renderDonut(){
-    const s=[this.data.categoryStats.ibadah,this.data.categoryStats.ekstra,this.data.categoryStats.umum];
+    const s=[this.data.categoryStats.ibadah || 0, this.data.categoryStats.ekstra || 0, this.data.categoryStats.umum || 0];
     if(this.charts.donut){this.charts.donut.updateSeries(s);return}
     this.charts.donut=new ApexCharts(document.getElementById('donut-chart'),{
-      series:s,chart:{type:'donut',height:240,fontFamily:'Plus Jakarta Sans,sans-serif'},
-      labels:['Program Ibadah','Ekstrakurikuler','Program Umum'],
-      colors:['#10b981','#3b82f6','#f59e0b'],
-      plotOptions:{pie:{donut:{size:'66%',labels:{show:true,total:{show:true,label:'Total Data',style:{fontFamily:'Syne,sans-serif',fontSize:'14px',fontWeight:'700',color:'#111827'},formatter:w=>w.globals.seriesTotals.reduce((a,b)=>a+b,0)}}}}},
-      dataLabels:{enabled:false},
-      legend:{position:'bottom',fontSize:'12px',fontFamily:'Plus Jakarta Sans,sans-serif',markers:{radius:4,width:8,height:8}},
-      tooltip:{theme:'light',style:{fontFamily:'Plus Jakarta Sans,sans-serif'}},
-      stroke:{width:0},
+      series: s,
+      chart: { type: 'donut', height: 260, fontFamily: 'Plus Jakarta Sans, sans-serif' },
+      labels: [CATEGORY_MAP.program_ibadah, CATEGORY_MAP.ekstrakurikuler, CATEGORY_MAP.program_umum],
+      colors: ['#10b981', '#3b82f6', '#f59e0b'],
+      plotOptions: { 
+        pie: { 
+          donut: { 
+            size: '70%', 
+            labels: { 
+              show: true, 
+              name: { fontSize: '11px', fontWeight: 600, color: '#6b7280' },
+              value: { fontSize: '24px', fontWeight: 700, color: '#111827', formatter: v => v },
+              total: { 
+                show: true, label: 'Total Entri', color: '#6b7280', fontSize: '12px', fontWeight: 600,
+                formatter: w => w.globals.seriesTotals.reduce((a,b)=>a+b,0) 
+              } 
+            } 
+          } 
+        } 
+      },
+      dataLabels: { enabled: false },
+      legend: { 
+        position: 'bottom', fontSize: '12px', fontWeight: 500, fontFamily: 'Plus Jakarta Sans, sans-serif', 
+        markers: { radius: 6, width: 10, height: 10, offsetX: -2 },
+        itemMargin: { horizontal: 8, vertical: 4 }
+      },
+      tooltip: { theme: 'light', style: {fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '13px'} },
+      stroke: { width: 2, colors: ['#ffffff'] }
     });
     this.charts.donut.render();
   },
@@ -1577,7 +1638,6 @@ const App = {
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.querySelectorAll('.sb-item, .mb-item').forEach(e=>e.classList.remove('active'));
     
-    // Bottom Nav & FAB sync
     const fab = document.getElementById('mobile-fab');
     if(id==='dashboard'){
       if(fab) fab.style.display = 'none';
@@ -1635,7 +1695,6 @@ const App = {
   start(){
     this.buildSidebar();this.startClock();
     if(Auth.restore()) this.init(); 
-    // Hapus Auth.checkHealth() dari awal load agar tidak block UX
   }
 };
 
