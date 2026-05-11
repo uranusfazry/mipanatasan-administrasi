@@ -69,6 +69,7 @@ a{text-decoration:none;color:inherit}
   display:flex;align-items:center;justify-content:center;
   background:#060f1a;
   overflow:hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
 }
 .ls-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .ls-mesh{
@@ -110,24 +111,12 @@ a{text-decoration:none;color:inherit}
 .ls-brand-name{font-family:var(--font-display);font-size:20px;font-weight:700;color:white;line-height:1.2}
 .ls-brand-sub{font-size:12px;color:rgba(255,255,255,.4);margin-top:2px}
 .ls-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:white;margin-bottom:6px}
-.ls-desc{font-size:13px;color:rgba(255,255,255,.38);margin-bottom:28px;line-height:1.5}
-
-.ls-status{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 14px;border-radius:10px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-  margin-bottom:24px;font-size:12px;color:rgba(255,255,255,.5);
-}
-.ls-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#374151}
-.ls-status.connected .ls-status-dot{background:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.2);animation:pulse-dot 2s ease infinite}
-.ls-status.error .ls-status-dot{background:#ef4444}
-.ls-status.connected{color:rgba(167,243,208,.8)}
-@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.2)}50%{box-shadow:0 0 0 6px rgba(16,185,129,.08)}}
+.ls-desc{font-size:13px;color:rgba(255,255,255,.38);margin-bottom:32px;line-height:1.5}
 
 .ls-field{margin-bottom:16px}
-.ls-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px}
+.ls-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px}
 .ls-input-wrap{position:relative}
-.ls-input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:rgba(255,255,255,.2);fill:none;stroke-width:2;pointer-events:none}
+.ls-input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:rgba(255,255,255,.3);fill:none;stroke-width:2;pointer-events:none}
 .ls-input{
   width:100%;background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
@@ -136,28 +125,31 @@ a{text-decoration:none;color:inherit}
   transition:var(--trans);
 }
 .ls-input::placeholder{color:rgba(255,255,255,.2)}
-.ls-input:focus{border-color:rgba(16,185,129,.5);background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(16,185,129,.12)}
-.ls-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.2);padding:4px;transition:var(--trans);line-height:0}
-.ls-eye:hover{color:rgba(255,255,255,.5)}
+.ls-input:focus{border-color:rgba(16,185,129,.6);background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+.ls-input:disabled{opacity: 0.6; cursor: not-allowed;}
+.ls-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);padding:4px;transition:var(--trans);line-height:0}
+.ls-eye:hover{color:rgba(255,255,255,.7)}
 .ls-eye svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
 .ls-btn{
-  width:100%;margin-top:8px;
+  width:100%;margin-top:12px;
   background:linear-gradient(135deg,#10b981,#059669);
   border:none;border-radius:11px;
   padding:13px;color:white;font-size:14px;font-weight:600;
   transition:var(--trans);
   box-shadow:0 4px 20px rgba(16,185,129,.3),0 1px 3px rgba(0,0,0,.2);
+  display: flex; justify-content: center; align-items: center; gap: 8px;
 }
 .ls-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 28px rgba(16,185,129,.4),0 2px 6px rgba(0,0,0,.2)}
 .ls-btn:active:not(:disabled){transform:translateY(0)}
-.ls-btn:disabled{opacity:.55;cursor:not-allowed}
-.ls-footer{text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.2)}
+.ls-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none;}
+.ls-footer{text-align:center;margin-top:24px;font-size:11px;color:rgba(255,255,255,.25)}
 
 /* ═══════════════════════════════
    APP SHELL
 ═══════════════════════════════ */
-#app{display:none;height:100vh;overflow:hidden}
-#app.visible{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:var(--topbar-h) 1fr;transition:grid-template-columns var(--trans)}
+#app{display:none;height:100vh;overflow:hidden; opacity: 0; transition: opacity 0.3s ease;}
+#app.visible{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:var(--topbar-h) 1fr;transition:grid-template-columns var(--trans); opacity: 1;}
 #app.sidebar-collapsed{--sidebar-w:64px}
 
 /* ═══════════════════════════════
@@ -882,29 +874,33 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
     </div>
     <div class="ls-title">Selamat datang</div>
     <div class="ls-desc">Masuk untuk mengelola data program & kegiatan madrasah</div>
-    <div id="ls-status" class="ls-status">
-      <div class="ls-status-dot"></div>
-      <span id="ls-status-txt">Memeriksa koneksi server...</span>
-    </div>
+    
     <form id="login-form" onsubmit="Auth.login(event)">
       <div class="ls-field">
         <label class="ls-label">Username</label>
         <div class="ls-input-wrap">
           <svg class="ls-input-icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>
-          <input id="inp-user" class="ls-input" type="text" placeholder="username" required disabled>
+          <!-- autofocus ditambahkan dan disabled dihilangkan -->
+          <input id="inp-user" class="ls-input" type="text" placeholder="username" required autofocus>
         </div>
       </div>
       <div class="ls-field">
         <label class="ls-label">Password</label>
         <div class="ls-input-wrap">
           <svg class="ls-input-icon" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-          <input id="inp-pass" class="ls-input" type="password" placeholder="••••••••" required disabled>
+          <!-- disabled dihilangkan -->
+          <input id="inp-pass" class="ls-input" type="password" placeholder="••••••••" required>
           <button type="button" class="ls-eye" onclick="Auth.togglePwd()">
             <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
           </button>
         </div>
       </div>
-      <button type="submit" class="ls-btn" id="ls-btn" disabled>Menghubungkan...</button>
+      <!-- Button aktif secara default dengan teks Masuk -->
+      <button type="submit" class="ls-btn" id="ls-btn">
+        <span id="ls-btn-txt">Masuk</span>
+        <!-- SVG Spinner tersembunyi untuk state loading -->
+        <svg id="ls-btn-spinner" style="display:none; width:18px; height:18px; animation:spin 1s linear infinite;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+      </button>
     </form>
     <div class="ls-footer">Powered by MI Panatasan Enterprise · v4.0</div>
   </div>
@@ -1216,7 +1212,6 @@ table.dt tbody tr:hover td:first-child{border-left:2px solid var(--c-accent)}
 // CONFIG & API (MASTER SHEET ARCH)
 // ════════════════════════════════
 const CFG = {
-  // Ganti dengan Deployment URL (Berakhiran /exec)
   API_URL:'https://script.google.com/macros/s/AKfycbxRSfmXGZVpqAWqj0e-9Rp_JrSRqufkbyJ9s3u7gMIwJkAhtep0_0PqBbej-HcJee3bSg/exec',
   TOKEN:'MI_PANATASAN_SECRET_2025'
 };
@@ -1226,12 +1221,12 @@ const Api = {
     params.token=CFG.TOKEN;params.action=action;
     const q=new URLSearchParams(params).toString();
     try{const r=await fetch(`${CFG.API_URL}?${q}`,{mode:'cors'});if(!r.ok)throw new Error();return await r.json();}
-    catch(e){return{success:false,error:{message:'Gagal terhubung ke server'}}}
+    catch(e){return{success:false,error:{message:'Gagal terhubung ke server'}};}
   },
   async post(action,payload={}){
     payload.token=CFG.TOKEN;payload.action=action;
     try{const r=await fetch(CFG.API_URL,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});if(!r.ok)throw new Error();return await r.json();}
-    catch(e){return{success:false,error:{message:'Gagal mengirim data ke server'}}}
+    catch(e){return{success:false,error:{message:'Jaringan bermasalah atau server tidak merespon'}};}
   }
 };
 
@@ -1261,33 +1256,52 @@ const U = {
 };
 
 // ════════════════════════════════
-// AUTH
+// AUTH (NEW ON-DEMAND LOGIN FLOW)
 // ════════════════════════════════
 const Auth = {
   user:null,
-  async checkHealth(){
-    const st=document.getElementById('ls-status'),txt=document.getElementById('ls-status-txt');
-    const r=await Api.get('health');
-    if(r.success){
-      st.className='ls-status connected';txt.textContent='Master System Online · Siap Login';
-      document.getElementById('ls-btn').disabled=false;document.getElementById('ls-btn').textContent='Masuk ke Dashboard';
-      document.getElementById('inp-user').disabled=false;document.getElementById('inp-pass').disabled=false;
-    } else {
-      st.className='ls-status error';txt.textContent='Gagal terhubung · Periksa URL API';
-      U.toast('Koneksi gagal. Pastikan Apps Script sudah deploy dengan akses "Anyone".','error');
-    }
-  },
   async login(e){
     e.preventDefault();
-    const btn=document.getElementById('ls-btn');btn.disabled=true;btn.textContent='Memverifikasi...';
-    const r=await Api.post('login',{username:document.getElementById('inp-user').value,password:document.getElementById('inp-pass').value});
+    const btn = document.getElementById('ls-btn');
+    const btnTxt = document.getElementById('ls-btn-txt');
+    const btnSpinner = document.getElementById('ls-btn-spinner');
+    const inpUser = document.getElementById('inp-user');
+    const inpPass = document.getElementById('inp-pass');
+
+    // UI Loading State
+    btn.disabled = true;
+    btnTxt.textContent = 'Menghubungkan...';
+    btnSpinner.style.display = 'block';
+    inpUser.disabled = true;
+    inpPass.disabled = true;
+
+    // Lakukan API call (sekaligus check koneksi & auth)
+    const r = await Api.post('login', {
+      username: inpUser.value,
+      password: inpPass.value
+    });
+
     if(r.success){
-      this.user=r.data.user;sessionStorage.setItem('_sess',JSON.stringify(this.user));
-      document.getElementById('login-screen').style.display='none';
-      App.init();
+      this.user = r.data.user;
+      sessionStorage.setItem('_sess', JSON.stringify(this.user));
+      
+      // Transisi Halus (Smooth Fade Out)
+      document.getElementById('login-screen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('login-screen').style.display = 'none';
+        App.init();
+      }, 400); // Tunggu animasi selesai
     } else {
-      btn.disabled=false;btn.textContent='Masuk ke Dashboard';
-      U.toast(r.error?.message||'Login gagal','error');
+      // Reset UI jika gagal / error jaringan
+      btn.disabled = false;
+      btnTxt.textContent = 'Masuk';
+      btnSpinner.style.display = 'none';
+      inpUser.disabled = false;
+      inpPass.disabled = false;
+      inpPass.value = ''; // Kosongkan password
+      inpUser.focus();
+      
+      U.toast(r.error?.message || 'Login gagal', 'error');
     }
   },
   logout(){
@@ -1620,7 +1634,8 @@ const App = {
 
   start(){
     this.buildSidebar();this.startClock();
-    if(Auth.restore())this.init();else Auth.checkHealth();
+    if(Auth.restore()) this.init(); 
+    // Hapus Auth.checkHealth() dari awal load agar tidak block UX
   }
 };
 
